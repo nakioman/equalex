@@ -4,6 +4,7 @@ const nextConfig = {
   experimental: {
     swcPlugins: [['next-superjson-plugin', {}]],
   },
+  output: 'standalone',
 };
 
 module.exports = nextConfig;
