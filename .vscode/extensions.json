@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "prisma.prisma",
+        "firefox-devtools.vscode-firefox-debug",
+        "yzhang.markdown-all-in-one",
+        "editorconfig.editorconfig",
+        "dbaeumer.vscode-eslint",
+        "christian-kohler.npm-intellisense"
+    ]
+}

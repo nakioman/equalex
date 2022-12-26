@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model WatchList {
+  id         String   @id @default(cuid())
+  userId     String
+  security   Security @relation(fields: [securityId], references: [id])
+  securityId String
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+  updatedAt  DateTime @updatedAt @map(name: "updated_at")
+}
+
+model Security {
+  id                    String      @id @default(cuid())
+  ticker                String      @unique
+  name                  String
+  sector                Sector
+  lastPrice             Decimal?
+  dailyChange           Decimal?
+  type                  AssetType
+  dailyHistoricalPrices PriceData[]
+  createdAt             DateTime    @default(now()) @map(name: "created_at")
+  updatedAt             DateTime    @updatedAt @map(name: "updated_at")
+  WatchList             WatchList[]
+}
+
+model PriceData {
+  id         BigInt   @id @default(autoincrement())
+  date       DateTime
+  open       Decimal
+  high       Decimal
+  low        Decimal
+  close      Decimal
+  volume     BigInt
+  security   Security @relation(fields: [securityId], references: [id])
+  securityId String
+}
+
+enum AssetType {
+  BOND
+  EQUITY
+}
+
+enum Sector {
+  TECHNOLOGY
+}
