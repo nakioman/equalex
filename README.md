@@ -6,6 +6,7 @@ Equalex is a web app built using NextJS to track your investment portfolio perfo
 - [Prisma](https://www.prisma.io/) as the ORM for migrations and database access
 - [PostgreSQL](https://www.postgresql.org) as the database
 - [TypeScript](https://www.typescriptlang.org/)  as the programming language
+- [Ant Design](https://ant.design/) for UI components
 
 ## Getting Started
 
