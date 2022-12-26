@@ -1,9 +1,8 @@
-import React from 'react';
-import { GetStaticProps } from 'next';
-import prisma from '../lib/prisma';
 import { Security, WatchList } from '@prisma/client';
+import React from 'react';
+import prisma from '../lib/prisma';
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps = async () => {
   const watchLists = await prisma.watchList.findMany({
     where: { userId: 'nacho' },
     include: {
