@@ -8,9 +8,8 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
-
 # Rebuild the source code only when needed
-FROM node:lts-alpine AS builder
+FROM node:lts AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .

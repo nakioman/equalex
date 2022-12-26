@@ -5,6 +5,7 @@ const nextConfig = {
     swcPlugins: [['next-superjson-plugin', {}]],
   },
   output: 'standalone',
+  swcMinify: true,
 };
 
 module.exports = nextConfig;
