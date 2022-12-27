@@ -8,9 +8,9 @@ const nextConfig = {
   experimental: {
     swcPlugins: [['next-superjson-plugin', {}]],
   },
-  transpilePackages: ['antd'],
   output: 'standalone',
   swcMinify: true,
+  staticPageGenerationTimeout: 300,
 };
 
 module.exports = withBundleAnalyzer(nextConfig);
