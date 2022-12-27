@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { DatePicker, message, Typography } from 'antd';
+import DatePicker from 'antd/lib/date-picker';
+import message from 'antd/lib/message';
+import Typography from 'antd/lib/typography';
 import { Dayjs } from 'dayjs';
+import { useState } from 'react';
 
 const Antd = () => {
   const [date, setDate] = useState<Dayjs | null>(null);
