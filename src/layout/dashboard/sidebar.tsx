@@ -22,6 +22,8 @@ function Footer() {
       collapsible
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
+      style={{ margin: '10px' }}
+      width={250}
     >
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         {!collapsed && (
@@ -46,6 +48,7 @@ function Footer() {
         mode="inline"
         items={Routes}
         onClick={handleMenuClick}
+        style={{ border: 0 }}
       />
     </Sider>
   );

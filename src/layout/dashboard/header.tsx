@@ -101,7 +101,7 @@ export function Header() {
   return (
     <AntHeader
       style={{
-        padding: '5px 20px',
+        padding: '10px 20px',
         background: colorBgContainer,
       }}
     >
