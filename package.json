@@ -14,7 +14,6 @@
     "lint": "npm run check-types && next lint",
     "check-types": "tsc --noemit",
     "prettier": "prettier --write .",
-    "prepare": "husky install",
     "analyze": "cross-env ANALYZE=true npm run build"
   },
   "dependencies": {
@@ -38,7 +37,6 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "husky": "^8.0.2",
     "prettier": "^2.8.1",
     "prisma": "^4.8.0"
   }
