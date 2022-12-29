@@ -14,7 +14,6 @@
     "lint": "npm run check-types && next lint",
     "check-types": "tsc --noemit",
     "prettier": "prettier --write .",
-    "prepare": "husky install",
     "analyze": "cross-env ANALYZE=true npm run build"
   },
   "dependencies": {
@@ -32,12 +31,13 @@
     "next-superjson-plugin": "^0.5.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.7.1",
+    "sharp": "^0.31.3",
     "superjson": "^1.12.1",
     "typescript": "4.9.4"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "husky": "^8.0.2",
     "prettier": "^2.8.1",
     "prisma": "^4.8.0"
   }
