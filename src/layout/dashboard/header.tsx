@@ -6,13 +6,13 @@ import {
   MenuProps,
   Row,
   theme,
-  Typography,
+  Typography
 } from 'antd';
 import { MenuItemGroupType, SubMenuType } from 'antd/es/menu/hooks/useItems';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { MenuItemType } from 'rc-menu/lib/interface';
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
 import { FaCog } from 'react-icons/fa';
 import Routes, { MenuItem } from './routes';
 
@@ -39,9 +39,10 @@ const traverseRoutes = (
   return null;
 };
 
-const useBreadcrumbPath = (): MenuItem[] => {
+const useBreadcrumbPath = (parent?: string): MenuItem[] => {
   const router = useRouter();
-  const removeQuestionMark = router.pathname.replace(/\?/g, '/');
+  const pathname = parent ?? router.pathname;
+  const removeQuestionMark = pathname.replace(/\?/g, '/');
   const removeEquals = removeQuestionMark.replace(/\=/g, '/');
 
   const list: MenuItem[] = [];
@@ -49,8 +50,8 @@ const useBreadcrumbPath = (): MenuItem[] => {
   return path;
 };
 
-const Breadcrumbs = () => {
-  const breadcrumbPath = useBreadcrumbPath();
+const Breadcrumbs = ({ breadcrumbParent, breadcrumbTitle }: HeaderProps) => {
+  const breadcrumbPath = useBreadcrumbPath(breadcrumbParent);
   const { Title, Text, Link } = Typography;
   const router = useRouter();
 
@@ -77,6 +78,7 @@ const Breadcrumbs = () => {
             </Breadcrumb.Item>
           );
         })}
+        {breadcrumbTitle && <Breadcrumb.Item>{breadcrumbTitle}</Breadcrumb.Item>}
       </Breadcrumb>
       <Title level={3}>
         {(breadcrumbPath[breadcrumbPath.length - 1] as MenuItemType).label}
@@ -92,7 +94,12 @@ const settingsItems: MenuProps['items'] = [
   },
 ];
 
-export function Header() {
+type HeaderProps = {
+  breadcrumbParent?: string
+  breadcrumbTitle?: ReactNode
+};
+
+export function Header(props: HeaderProps) {
   const { Header: AntHeader } = Layout;
   const {
     token: { colorBgContainer },
@@ -107,7 +114,7 @@ export function Header() {
     >
       <Row>
         <Col span={23}>
-          <Breadcrumbs />
+          <Breadcrumbs {...props} />
         </Col>
         <Col span={1}>
           <Dropdown

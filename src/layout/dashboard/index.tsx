@@ -7,9 +7,11 @@ import Sidebar from './sidebar';
 
 type DashboardLayout = {
   children: ReactNode;
+  breadcrumbParent?: string
+  breadcrumbTitle?: ReactNode
 };
 
-export default function DashboardLayout({ children }: DashboardLayout) {
+export default function DashboardLayout({ children, breadcrumbParent, breadcrumbTitle }: DashboardLayout) {
   const { Content } = Layout;
   const {
     token: { colorBgContainer },
@@ -22,7 +24,7 @@ export default function DashboardLayout({ children }: DashboardLayout) {
       <Layout style={{ minHeight: '100vh', background: colorBgContainer }}>
         <Sidebar />
         <Layout>
-          <Header />
+          <Header breadcrumbParent={breadcrumbParent} breadcrumbTitle={breadcrumbTitle} />
           <Content
             style={{ margin: '10px 20px' }}
           >
