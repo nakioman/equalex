@@ -2,6 +2,7 @@ import { ConfigProvider, theme } from 'antd';
 import 'antd/dist/reset.css';
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { ReactElement, ReactNode } from 'react';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -24,8 +25,13 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <ConfigProvider theme={customTheme}>
-      {getLayout(<Component {...pageProps} />)}
-    </ConfigProvider>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <ConfigProvider theme={customTheme}>
+        {getLayout(<Component {...pageProps} />)}
+      </ConfigProvider>
+    </>
   );
 }
