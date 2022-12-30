@@ -21,10 +21,10 @@ export default function DashboardLayout({ children }: DashboardLayout) {
       </Head>
       <Layout style={{ minHeight: '100vh', background: colorBgContainer }}>
         <Sidebar />
-        <Layout style={{ background: colorBgContainer }}>
+        <Layout>
           <Header />
           <Content
-            style={{ background: colorBgContainer, margin: '10px 20px' }}
+            style={{ margin: '10px 20px' }}
           >
             {children}
           </Content>
