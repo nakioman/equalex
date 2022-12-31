@@ -15,10 +15,10 @@ type AppPropsWithLayout = AppProps & {
 
 const customTheme = {
   token: {
-    colorPrimary: "#55a22f",
+    colorPrimary: '#55a22f',
   },
   algorithm: theme.defaultAlgorithm,
-}
+};
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
@@ -29,9 +29,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <ConfigProvider theme={customTheme}>
-        {getLayout(<Component {...pageProps} />)}
-      </ConfigProvider>
+      <ConfigProvider theme={customTheme}>{getLayout(<Component {...pageProps} />)}</ConfigProvider>
     </>
   );
 }

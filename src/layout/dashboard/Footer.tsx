@@ -22,18 +22,10 @@ function Footer() {
         </Col>
         <Col>
           <Space split={<Divider type="vertical" />}>
-            <Link
-              href="https://github.com/nakioman/equalex/"
-              rel="noreferrer"
-              target="_blank"
-            >
+            <Link href="https://github.com/nakioman/equalex/" rel="noreferrer" target="_blank">
               <FaGithub title="Github" />
             </Link>
-            <Link
-              href="https://hub.docker.com/r/iglinsek/equalex"
-              rel="noreferrer"
-              target="_blank"
-            >
+            <Link href="https://hub.docker.com/r/iglinsek/equalex" rel="noreferrer" target="_blank">
               <FaDocker title="Docker" />
             </Link>
           </Space>

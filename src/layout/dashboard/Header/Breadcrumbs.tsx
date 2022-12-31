@@ -1,21 +1,15 @@
-import { Breadcrumb, Typography } from "antd";
-import { MenuItemGroupType, MenuItemType, SubMenuType } from "antd/es/menu/hooks/useItems";
-import { useRouter } from "next/router";
-import { MouseEventHandler, ReactNode } from "react";
-import Routes, { MenuItem } from "../routes";
-
+import { Breadcrumb, Typography } from 'antd';
+import { MenuItemGroupType, MenuItemType, SubMenuType } from 'antd/es/menu/hooks/useItems';
+import { useRouter } from 'next/router';
+import { MouseEventHandler, ReactNode } from 'react';
+import Routes, { MenuItem } from '../routes';
 
 export type BreadcrumbProps = {
-  breadcrumbParent?: string
-  breadcrumbTitle?: ReactNode
+  breadcrumbParent?: string;
+  breadcrumbTitle?: ReactNode;
 };
 
-
-const traverseRoutes = (
-  routes: MenuItem[],
-  path: MenuItem[],
-  pathname: string
-): MenuItem[] | null => {
+const traverseRoutes = (routes: MenuItem[], path: MenuItem[], pathname: string): MenuItem[] | null => {
   const list: MenuItem[] = [];
 
   for (let i = 0; i < routes.length; i++) {
@@ -75,9 +69,7 @@ const Breadcrumbs = ({ breadcrumbParent, breadcrumbTitle }: BreadcrumbProps) => 
         })}
         {breadcrumbTitle && <Breadcrumb.Item>{breadcrumbTitle}</Breadcrumb.Item>}
       </Breadcrumb>
-      <Title level={3}>
-        {(breadcrumbPath[breadcrumbPath.length - 1] as MenuItemType).label}
-      </Title>
+      <Title level={3}>{(breadcrumbPath[breadcrumbPath.length - 1] as MenuItemType).label}</Title>
     </>
   );
 };

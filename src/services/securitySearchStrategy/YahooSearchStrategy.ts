@@ -11,9 +11,7 @@ export default class YahooFinanceSearch implements ISecuritySearchStrategy {
         ticker: quote.symbol,
         type: 'EQUITY',
         dailyChange: quote.regularMarketChange,
-        dailyChangePercentage: quote.regularMarketChangePercent
-          ? quote.regularMarketChangePercent / 100
-          : undefined,
+        dailyChangePercentage: quote.regularMarketChangePercent ? quote.regularMarketChangePercent / 100 : undefined,
         lastPrice: quote.regularMarketPrice,
       };
     }

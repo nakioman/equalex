@@ -7,8 +7,8 @@ import Sidebar from './Sidebar';
 
 type DashboardLayout = {
   children: ReactNode;
-  breadcrumbParent?: string
-  breadcrumbTitle?: ReactNode
+  breadcrumbParent?: string;
+  breadcrumbTitle?: ReactNode;
 };
 
 export default function DashboardLayout({ children, breadcrumbParent, breadcrumbTitle }: DashboardLayout) {
@@ -25,11 +25,7 @@ export default function DashboardLayout({ children, breadcrumbParent, breadcrumb
         <Sidebar />
         <Layout>
           <Header breadcrumbParent={breadcrumbParent} breadcrumbTitle={breadcrumbTitle} />
-          <Content
-            style={{ margin: '10px 20px' }}
-          >
-            {children}
-          </Content>
+          <Content style={{ margin: '10px 20px' }}>{children}</Content>
           <Footer />
         </Layout>
       </Layout>

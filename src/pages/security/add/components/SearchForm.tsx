@@ -1,17 +1,17 @@
-import { Button, Form, Input, message, Select } from "antd";
-import { useState } from "react";
-import { SecurityType } from "../../../../interfaces/enums";
-import { SecurityResponse } from "../../../../interfaces/security";
+import { Button, Form, Input, message, Select } from 'antd';
+import { useState } from 'react';
+import { SecurityType } from '../../../../interfaces/enums';
+import { SecurityResponse } from '../../../../interfaces/security';
 
 export type SearchTickerForm = {
-  ticker: string,
-  type: SecurityType
-}
+  ticker: string;
+  type: SecurityType;
+};
 
 export type SearchFormProps = {
-  onValuesChange?: () => void
+  onValuesChange?: () => void;
   onSecurityFound?: (security: SecurityResponse) => void;
-}
+};
 
 export default function SearchForm({ onValuesChange, onSecurityFound }: SearchFormProps) {
   const [tickerForm] = Form.useForm<SearchTickerForm>();
@@ -26,8 +26,7 @@ export default function SearchForm({ onValuesChange, onSecurityFound }: SearchFo
       if (onSecurityFound) {
         onSecurityFound(json);
       }
-    }
-    else {
+    } else {
       messageApi.open({ type: 'info', content: 'Security not found', duration: 5 });
     }
     setSearching(false);
@@ -36,20 +35,29 @@ export default function SearchForm({ onValuesChange, onSecurityFound }: SearchFo
   return (
     <>
       {contextHolder}
-      <Form name="ticker-add" layout='inline' form={tickerForm} onFinish={onFinish} initialValues={{ type: SecurityType.EQUITY }} onValuesChange={onValuesChange}>
-        <Form.Item label="Ticker" name="ticker" rules={[{ required: true, message: 'Please input a ticker to find' }]} >
+      <Form
+        name="ticker-add"
+        layout="inline"
+        form={tickerForm}
+        onFinish={onFinish}
+        initialValues={{ type: SecurityType.EQUITY }}
+        onValuesChange={onValuesChange}
+      >
+        <Form.Item label="Ticker" name="ticker" rules={[{ required: true, message: 'Please input a ticker to find' }]}>
           <Input autoFocus />
         </Form.Item>
-        <Form.Item name="type" label="Type" rules={[{ required: true }]} >
+        <Form.Item name="type" label="Type" rules={[{ required: true }]}>
           <Select>
             <Select.Option value={SecurityType.BOND}>Bond</Select.Option>
             <Select.Option value={SecurityType.EQUITY}>Equity</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item>
-          <Button type="default" htmlType="submit" disabled={searching} loading={searching}>Search</Button>
+          <Button type="default" htmlType="submit" disabled={searching} loading={searching}>
+            Search
+          </Button>
         </Form.Item>
       </Form>
     </>
-  )
+  );
 }

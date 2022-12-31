@@ -2,10 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { SecurityResponse } from '../../../interfaces/security';
 import prisma from '../../../lib/prisma';
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<SecurityResponse[] | undefined>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<SecurityResponse[] | undefined>) {
   switch (req.method) {
     case 'GET':
       return await getSecurities(res);
