@@ -8,9 +8,9 @@ export default async function handler(
 ) {
   switch (req.method) {
     case 'GET':
-      await getSecurities(res);
+      return await getSecurities(res);
     default:
-      res.status(405).end();
+      return res.status(405).end();
   }
 }
 
@@ -49,5 +49,5 @@ async function getSecurities(res: NextApiResponse<SecurityResponse[]>) {
       }
   );
 
-  res.status(200).json(response);
+  return res.status(200).json(response);
 }

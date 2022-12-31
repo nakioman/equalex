@@ -3,12 +3,18 @@ import { AssetType, Sector } from '@prisma/client';
 export type SecurityResponse = {
   name: string;
   ticker: string;
-  sector: SecuritySectorType;
+  sector?: SecuritySectorType;
   lastPrice?: number;
   dailyChange?: number;
   dailyChangePercentage?: number;
   type: SecurityType;
   updatedAt?: Date;
+};
+
+export type WatchlistRequest = {
+  ticker: string;
+  type: SecurityType;
+  sector: SecuritySectorType;
 };
 
 export type SecuritySectorType = typeof Sector[keyof typeof Sector];

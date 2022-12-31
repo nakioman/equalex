@@ -82,7 +82,7 @@ export default function SecurityPage() {
         <>
             <Row gutter={[24, 0]}>
                 <Col xs="24" xl={24}>
-                    <Card title="Securities" extra={<Button icon={<PlusOutlined />} onClick={() => router.push('/secrutiy/add')} >Add</Button>}>
+                    <Card title="Securities" extra={<Button icon={<PlusOutlined />} onClick={() => router.push('/security/add')} >Add</Button>}>
                         <Table dataSource={securities} columns={columns} rowKey={nameof<SecurityResponse>("ticker")} pagination={false} />
                     </Card>
                 </Col>
