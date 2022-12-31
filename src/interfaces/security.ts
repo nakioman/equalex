@@ -1,4 +1,4 @@
-import { AssetType, Sector } from '@prisma/client';
+import { SecuritySectorType, SecurityType } from './enums';
 
 export type SecurityResponse = {
   name: string;
@@ -10,13 +10,3 @@ export type SecurityResponse = {
   type: SecurityType;
   updatedAt?: Date;
 };
-
-export type WatchlistRequest = {
-  ticker: string;
-  type: SecurityType;
-  sector: SecuritySectorType;
-};
-
-export type SecuritySectorType = typeof Sector[keyof typeof Sector];
-
-export type SecurityType = typeof AssetType[keyof typeof AssetType];

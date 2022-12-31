@@ -1,17 +1,17 @@
 import { AssetType } from '@prisma/client';
 import { SecurityResponse } from '../../interfaces/security';
-import YahooFinanceSearch from './yahooSearch';
+import YahooFinanceSearchStrategy from './YahooSearchStrategy';
 
-export interface ISecurityTypeSearch {
+export interface ISecuritySearchStrategy {
   search(ticker: string): Promise<SecurityResponse | null>;
 }
 
-export default class SecurityTypeSearch {
+export default class SecuritySearchStrategyManager {
   protected securityType;
   constructor(type: string) {
     switch (type) {
       case AssetType.EQUITY:
-        this.securityType = new YahooFinanceSearch();
+        this.securityType = new YahooFinanceSearchStrategy();
         break;
       default:
         throw new Error(`SecurityTypeSearch not supported ${type}`);

@@ -7,6 +7,7 @@ function Footer() {
   const { Footer: AntFooter } = Layout;
   const { Link } = Typography;
   const year = new Date().getFullYear();
+
   return (
     <AntFooter style={{ padding: '5px 25px' }}>
       <Row justify="space-between">

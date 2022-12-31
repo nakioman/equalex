@@ -1,20 +1,15 @@
-import {
-  Breadcrumb,
-  Col,
-  Dropdown,
-  Layout,
-  MenuProps,
-  Row,
-  theme,
-  Typography
-} from 'antd';
-import { MenuItemGroupType, SubMenuType } from 'antd/es/menu/hooks/useItems';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { MenuItemType } from 'rc-menu/lib/interface';
-import { MouseEventHandler, ReactNode } from 'react';
-import { FaCog } from 'react-icons/fa';
-import Routes, { MenuItem } from './routes';
+import { Breadcrumb, Typography } from "antd";
+import { MenuItemGroupType, MenuItemType, SubMenuType } from "antd/es/menu/hooks/useItems";
+import { useRouter } from "next/router";
+import { MouseEventHandler, ReactNode } from "react";
+import Routes, { MenuItem } from "../routes";
+
+
+export type BreadcrumbProps = {
+  breadcrumbParent?: string
+  breadcrumbTitle?: ReactNode
+};
+
 
 const traverseRoutes = (
   routes: MenuItem[],
@@ -50,7 +45,7 @@ const useBreadcrumbPath = (parent?: string): MenuItem[] => {
   return path;
 };
 
-const Breadcrumbs = ({ breadcrumbParent, breadcrumbTitle }: HeaderProps) => {
+const Breadcrumbs = ({ breadcrumbParent, breadcrumbTitle }: BreadcrumbProps) => {
   const breadcrumbPath = useBreadcrumbPath(breadcrumbParent);
   const { Title, Text, Link } = Typography;
   const router = useRouter();
@@ -87,47 +82,4 @@ const Breadcrumbs = ({ breadcrumbParent, breadcrumbTitle }: HeaderProps) => {
   );
 };
 
-const settingsItems: MenuProps['items'] = [
-  {
-    key: '1',
-    label: <Link href="/logout">Logout</Link>,
-  },
-];
-
-type HeaderProps = {
-  breadcrumbParent?: string
-  breadcrumbTitle?: ReactNode
-};
-
-export function Header(props: HeaderProps) {
-  const { Header: AntHeader } = Layout;
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
-  return (
-    <AntHeader
-      style={{
-        padding: '10px 20px',
-        background: colorBgContainer,
-      }}
-    >
-      <Row>
-        <Col span={23}>
-          <Breadcrumbs {...props} />
-        </Col>
-        <Col span={1}>
-          <Dropdown
-            menu={{ items: settingsItems }}
-            placement="bottom"
-            arrow={{ pointAtCenter: true }}
-          >
-            <Typography.Link href="#" onClick={(e) => e.preventDefault()}>
-              <FaCog size={20} />
-            </Typography.Link>
-          </Dropdown>
-        </Col>
-      </Row>
-    </AntHeader>
-  );
-}
+export default Breadcrumbs;

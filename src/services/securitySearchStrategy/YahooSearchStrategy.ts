@@ -1,8 +1,8 @@
 import yahooFinance from 'yahoo-finance2';
-import { ISecurityTypeSearch } from '.';
+import { ISecuritySearchStrategy } from '.';
 import { SecurityResponse } from '../../interfaces/security';
 
-export default class YahooFinanceSearch implements ISecurityTypeSearch {
+export default class YahooFinanceSearch implements ISecuritySearchStrategy {
   async search(ticker: string): Promise<SecurityResponse | null> {
     const quote = await yahooFinance.quote(ticker);
     if (quote) {

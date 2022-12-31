@@ -1,9 +1,9 @@
 import { Layout, theme } from 'antd';
 import Head from 'next/head';
 import { ReactNode } from 'react';
-import Footer from './footer';
-import { Header } from './header';
-import Sidebar from './sidebar';
+import Footer from './Footer';
+import { Header } from './Header';
+import Sidebar from './Sidebar';
 
 type DashboardLayout = {
   children: ReactNode;

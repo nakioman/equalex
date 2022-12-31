@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { SecurityResponse } from '../../../interfaces/security';
-import SecurityTypeSearch from '../../../services/securityType';
+import SecuritySearchStrategyManager from '../../../services/securitySearchStrategy';
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,9 +20,9 @@ async function getSecurity(
 ) {
   if (!query.type || !query.ticker) return res.status(400).end();
 
-  const security = await new SecurityTypeSearch(query.type as string).search(
-    query.ticker as string
-  );
+  const security = await new SecuritySearchStrategyManager(
+    query.type as string
+  ).search(query.ticker as string);
 
   if (security) return res.status(200).json(security);
 
