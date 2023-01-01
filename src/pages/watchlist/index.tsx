@@ -5,7 +5,7 @@ import { ReactElement, useEffect, useState } from 'react';
 import { WatchlistResponse } from '../../interfaces/watchlist';
 import DashboardLayout from '../../layout/dashboard';
 import { nameof } from '../../lib/utils';
-import Columns from './components/Columns';
+import Columns from '../../modules/watchlist/components/Columns';
 
 export default function SecurityPage() {
   const [watchlist, setWatchlist] = useState<WatchlistResponse[] | undefined>();

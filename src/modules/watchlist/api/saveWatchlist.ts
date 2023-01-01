@@ -1,9 +1,9 @@
 import { Prisma } from '@prisma/client';
 import { NextApiResponse } from 'next';
-import { SecuritySearchResponse } from '../../../../interfaces/security';
-import { WatchlistRequest } from '../../../../interfaces/watchlist';
-import prisma from '../../../../lib/prisma';
-import SecuritySearchStrategyManager from '../../../../services/securitySearchStrategy';
+import { SecuritySearchResponse } from '../../../interfaces/security';
+import { WatchlistRequest } from '../../../interfaces/watchlist';
+import prisma from '../../../lib/prisma';
+import SecuritySearchStrategyManager from '../../../services/securitySearchStrategy';
 
 export default async function saveWatchlist(body: WatchlistRequest, res: NextApiResponse) {
   const exists = await prisma.watchList.findFirst({

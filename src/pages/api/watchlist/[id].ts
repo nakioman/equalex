@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import deleteWatchlist from './services/deleteWatchlist';
+import deleteWatchlist from '../../../modules/watchlist/api/deleteWatchlist';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {

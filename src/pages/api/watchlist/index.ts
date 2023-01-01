@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import getWatchlist from './services/getWatchlist';
-import saveWatchlist from './services/saveWatchlist';
+import getWatchlist from '../../../modules/watchlist/api/getWatchlist';
+import saveWatchlist from '../../../modules/watchlist/api/saveWatchlist';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {

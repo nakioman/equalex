@@ -1,7 +1,7 @@
 import { Button, Form, Input, message, Select } from 'antd';
 import { useState } from 'react';
-import { SecurityType } from '../../../../interfaces/enums';
-import { SecuritySearchResponse } from '../../../../interfaces/security';
+import { SecurityType } from '../../../interfaces/enums';
+import { SecuritySearchResponse } from '../../../interfaces/security';
 
 export type SearchTickerForm = {
   ticker: string;

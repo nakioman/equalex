@@ -1,10 +1,10 @@
 import { Card, Divider } from 'antd';
 import Link from 'next/link';
 import { ReactElement, useState } from 'react';
-import { SecuritySearchResponse } from '../../../interfaces/security';
-import DashboardLayout from '../../../layout/dashboard';
-import SearchForm from './components/SearchForm';
-import WatchlistAddForm from './components/WatchlistAddForm';
+import { SecuritySearchResponse } from '../../interfaces/security';
+import DashboardLayout from '../../layout/dashboard';
+import SearchForm from '../../modules/watchlist/components/SearchForm';
+import WatchlistAddForm from '../../modules/watchlist/components/WatchlistAddForm';
 
 export default function SecurityAddPage() {
   const [security, setSecurity] = useState<SecuritySearchResponse>();

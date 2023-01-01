@@ -1,6 +1,6 @@
 import { NextApiResponse } from 'next';
-import { WatchlistResponse } from '../../../../interfaces/watchlist';
-import prisma from '../../../../lib/prisma';
+import { WatchlistResponse } from '../../../interfaces/watchlist';
+import prisma from '../../../lib/prisma';
 
 export default async function getWatchlist(res: NextApiResponse<WatchlistResponse[]>) {
   const securities = await prisma.watchList.findMany({

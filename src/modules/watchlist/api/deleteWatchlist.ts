@@ -1,5 +1,5 @@
 import { NextApiResponse } from 'next';
-import prisma from '../../../../lib/prisma';
+import prisma from '../../../lib/prisma';
 
 export default async function deleteWatchlist(id: string | undefined, res: NextApiResponse) {
   if (!id) return res.status(400).end();
