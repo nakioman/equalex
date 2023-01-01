@@ -1,6 +1,7 @@
 import { SecuritySectorType, SecurityType } from './enums';
 
 export type SecurityResponse = {
+  id: string;
   name: string;
   ticker: string;
   sector?: SecuritySectorType;

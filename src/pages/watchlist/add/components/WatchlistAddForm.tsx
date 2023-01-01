@@ -26,7 +26,7 @@ export default function WatchlistAddForm({ security }: WatchlistAddFormProps) {
       },
       body: JSON.stringify(values),
     });
-    if (res.ok) router.push('/security');
+    if (res.ok) router.push('/watchlist');
     else if (res.status == 409) {
       messageApi.open({ type: 'error', content: 'The same security already exists, cannot add it again', duration: 5 });
     } else {

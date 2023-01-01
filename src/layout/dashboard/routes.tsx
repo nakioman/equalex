@@ -1,5 +1,5 @@
 import { MenuProps } from 'antd';
-import { AiOutlineStock, AiOutlineTransaction } from 'react-icons/ai';
+import { AiOutlineStock } from 'react-icons/ai';
 import { FaHome } from 'react-icons/fa';
 
 export type MenuItem = Required<MenuProps>['items'][number];
@@ -16,15 +16,11 @@ const Routes: MenuItem[] = [
     type: 'group',
     children: [
       {
-        label: 'All',
-        key: '/security',
+        label: 'Watchlist',
+        key: '/watchlist',
         icon: <AiOutlineStock />,
       },
-      {
-        label: 'Transactions',
-        key: '/security/transaction',
-        icon: <AiOutlineTransaction />,
-      },
+
     ],
   },
 ];

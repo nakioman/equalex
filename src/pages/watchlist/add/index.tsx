@@ -31,7 +31,7 @@ export default function SecurityAddPage() {
 SecurityAddPage.getLayout = function getLayout(page: ReactElement) {
   return (
     <DashboardLayout
-      breadcrumbParent="/security"
+      breadcrumbParent="/watchlist"
       breadcrumbTitle={
         <Link href="/security/add" className="ant-typograph">
           Add

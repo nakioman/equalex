@@ -1,20 +1,12 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { SecurityResponse } from '../../../interfaces/security';
-import prisma from '../../../lib/prisma';
+import { NextApiResponse } from 'next';
+import { SecurityResponse } from '../../../../interfaces/security';
+import prisma from '../../../../lib/prisma';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<SecurityResponse[] | undefined>) {
-  switch (req.method) {
-    case 'GET':
-      return await getSecurities(res);
-    default:
-      return res.status(405).end();
-  }
-}
-
-async function getSecurities(res: NextApiResponse<SecurityResponse[]>) {
+export default async function getWatchlist(res: NextApiResponse<SecurityResponse[]>) {
   const securities = await prisma.watchList.findMany({
     where: { userId: 'nacho' },
     select: {
+      id: true,
       security: {
         select: {
           name: true,
@@ -32,6 +24,7 @@ async function getSecurities(res: NextApiResponse<SecurityResponse[]>) {
   var response = securities.map(
     (w) =>
       <SecurityResponse>{
+        id: w.id,
         name: w.security.name,
         ticker: w.security.ticker,
         sector: w.security.sector,
