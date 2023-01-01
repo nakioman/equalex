@@ -58,8 +58,8 @@ export default function WatchlistAddForm({ security }: WatchlistAddFormProps) {
             <Form.Item label="Ticker" name="ticker">
               <Input readOnly />
             </Form.Item>
-            <Form.Item label="Name">
-              <Input readOnly value={security?.name} style={{ width: 500 }} />
+            <Form.Item label="Name" name="name">
+              <Input style={{ width: 500 }} />
             </Form.Item>
           </Space>
         </Row>
@@ -71,6 +71,7 @@ export default function WatchlistAddForm({ security }: WatchlistAddFormProps) {
           >
             <Select style={{ width: 400 }}>
               <Select.Option value={SecuritySectorType.TECHNOLOGY}>Technology</Select.Option>
+              <Select.Option value={SecuritySectorType.ARGENTINA_BOND}>Argentina Treasure</Select.Option>
             </Select>
           </Form.Item>
         </Row>

@@ -4,6 +4,7 @@ export type WatchlistRequest = {
   ticker: string;
   type: SecurityType;
   sector: SecuritySectorType;
+  name: string;
 };
 
 export type WatchlistResponse = {

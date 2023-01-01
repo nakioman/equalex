@@ -1,5 +1,6 @@
-import { AssetType } from '@prisma/client';
+import { SecurityType } from '../../interfaces/enums';
 import { SecuritySearchResponse } from '../../interfaces/security';
+import RavaSearchStrategy from './RavaSearchStrategy';
 import YahooFinanceSearchStrategy from './YahooSearchStrategy';
 
 export interface ISecuritySearchStrategy {
@@ -10,8 +11,11 @@ export default class SecuritySearchStrategyManager {
   protected securityType;
   constructor(type: string) {
     switch (type) {
-      case AssetType.EQUITY:
+      case SecurityType.EQUITY:
         this.securityType = new YahooFinanceSearchStrategy();
+        break;
+      case SecurityType.BOND:
+        this.securityType = new RavaSearchStrategy();
         break;
       default:
         throw new Error(`SecurityTypeSearch not supported ${type}`);

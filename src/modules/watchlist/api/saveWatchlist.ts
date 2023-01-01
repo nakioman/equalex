@@ -44,7 +44,7 @@ async function createSecurity(body: WatchlistRequest): Promise<Prisma.SecurityCr
 
   return {
     ticker: security.ticker,
-    name: security.name,
+    name: body.name,
     sector: body.sector,
     type: body.type,
   };

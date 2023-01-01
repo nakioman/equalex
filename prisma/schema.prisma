@@ -52,4 +52,5 @@ enum AssetType {
 
 enum Sector {
   TECHNOLOGY
+  ARGENTINA_BOND
 }
