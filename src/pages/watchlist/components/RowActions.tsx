@@ -1,13 +1,13 @@
 import { DeleteOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import { Button, message, Modal, Space } from "antd";
-import { SecurityResponse } from "../../../interfaces/security";
+import { WatchlistResponse } from "../../../interfaces/watchlist";
 
 export type RowActionsProps = {
-  security: SecurityResponse,
+  watchlist: WatchlistResponse,
   refresh: () => void
 }
 
-export default function RowActions({ security, refresh }: RowActionsProps) {
+export default function RowActions({ watchlist, refresh }: RowActionsProps) {
   const { confirm } = Modal;
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -17,7 +17,7 @@ export default function RowActions({ security, refresh }: RowActionsProps) {
       icon: <ExclamationCircleFilled />,
       content: 'Are you sure to delete this security?',
       async onOk() {
-        const res = await fetch(`/api/watchlist/${security.id}`, { method: 'DELETE' });
+        const res = await fetch(`/api/watchlist/${watchlist.id}`, { method: 'DELETE' });
         if (res.ok) {
           refresh();
         }

@@ -1,7 +1,7 @@
 import { Button, Form, Input, message, Select } from 'antd';
 import { useState } from 'react';
 import { SecurityType } from '../../../../interfaces/enums';
-import { SecurityResponse } from '../../../../interfaces/security';
+import { SecuritySearchResponse } from '../../../../interfaces/security';
 
 export type SearchTickerForm = {
   ticker: string;
@@ -10,7 +10,7 @@ export type SearchTickerForm = {
 
 export type SearchFormProps = {
   onValuesChange?: () => void;
-  onSecurityFound?: (security: SecurityResponse) => void;
+  onSecurityFound?: (security: SecuritySearchResponse) => void;
 };
 
 export default function SearchForm({ onValuesChange, onSecurityFound }: SearchFormProps) {

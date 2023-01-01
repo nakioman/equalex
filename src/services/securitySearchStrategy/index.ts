@@ -1,9 +1,9 @@
 import { AssetType } from '@prisma/client';
-import { SecurityResponse } from '../../interfaces/security';
+import { SecuritySearchResponse } from '../../interfaces/security';
 import YahooFinanceSearchStrategy from './YahooSearchStrategy';
 
 export interface ISecuritySearchStrategy {
-  search(ticker: string): Promise<SecurityResponse | null>;
+  search(ticker: string): Promise<SecuritySearchResponse | null>;
 }
 
 export default class SecuritySearchStrategyManager {
@@ -18,7 +18,7 @@ export default class SecuritySearchStrategyManager {
     }
   }
 
-  async search(ticker: string): Promise<SecurityResponse | null> {
+  async search(ticker: string): Promise<SecuritySearchResponse | null> {
     return await this.securityType.search(ticker);
   }
 }

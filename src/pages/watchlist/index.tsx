@@ -2,19 +2,19 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Alert, Button, Card, Col, Row, Table } from 'antd';
 import { useRouter } from 'next/router';
 import { ReactElement, useEffect, useState } from 'react';
-import { SecurityResponse } from '../../interfaces/security';
+import { WatchlistResponse } from '../../interfaces/watchlist';
 import DashboardLayout from '../../layout/dashboard';
 import { nameof } from '../../lib/utils';
 import Columns from './components/Columns';
 
 export default function SecurityPage() {
-  const [securities, setSecurities] = useState<SecurityResponse[] | undefined>();
+  const [watchlist, setWatchlist] = useState<WatchlistResponse[] | undefined>();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [showError, setShowError] = useState<boolean>();
   const columns = Columns(() => {
     setLoading(true);
-    setSecurities(undefined);
+    setWatchlist(undefined);
   });
 
   useEffect(() => {
@@ -24,11 +24,11 @@ export default function SecurityPage() {
       if (!res.ok) setShowError(true);
 
       const json = await res.json();
-      setSecurities(json);
+      setWatchlist(json);
       setLoading(false);
     }
     getSecurities();
-  }, [securities]);
+  }, [watchlist]);
 
   return (
     <>
@@ -44,9 +44,9 @@ export default function SecurityPage() {
             }
           >
             <Table
-              dataSource={securities}
+              dataSource={watchlist}
               columns={columns}
-              rowKey={nameof<SecurityResponse>('ticker')}
+              rowKey={nameof<WatchlistResponse>('ticker')}
               pagination={false}
               loading={loading}
             />

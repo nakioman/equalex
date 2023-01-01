@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 import { NextApiResponse } from 'next';
-import { SecurityResponse } from '../../../../interfaces/security';
+import { SecuritySearchResponse } from '../../../../interfaces/security';
 import { WatchlistRequest } from '../../../../interfaces/watchlist';
 import prisma from '../../../../lib/prisma';
 import SecuritySearchStrategyManager from '../../../../services/securitySearchStrategy';
@@ -40,7 +40,7 @@ export default async function saveWatchlist(body: WatchlistRequest, res: NextApi
 }
 
 async function createSecurity(body: WatchlistRequest): Promise<Prisma.SecurityCreateWithoutWatchListInput> {
-  const security = (await new SecuritySearchStrategyManager(body.type).search(body.ticker)) as SecurityResponse;
+  const security = (await new SecuritySearchStrategyManager(body.type).search(body.ticker)) as SecuritySearchResponse;
 
   return {
     ticker: security.ticker,

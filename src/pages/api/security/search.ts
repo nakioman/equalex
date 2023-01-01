@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { SecurityResponse } from '../../../interfaces/security';
+import { SecuritySearchResponse } from '../../../interfaces/security';
 import SecuritySearchStrategyManager from '../../../services/securitySearchStrategy';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<SecurityResponse | null>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<SecuritySearchResponse | null>) {
   switch (req.method) {
     case 'GET':
       return await getSecurity(req.query, res);
@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
 async function getSecurity(
   query: Partial<{ [key: string]: string | string[] }>,
-  res: NextApiResponse<SecurityResponse | null>
+  res: NextApiResponse<SecuritySearchResponse | null>
 ) {
   if (!query.type || !query.ticker) return res.status(400).end();
 

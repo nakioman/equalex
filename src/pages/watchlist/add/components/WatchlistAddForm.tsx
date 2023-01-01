@@ -2,11 +2,11 @@ import { Button, Form, Input, message, Row, Select, Space } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { SecuritySectorType } from '../../../../interfaces/enums';
-import { SecurityResponse } from '../../../../interfaces/security';
+import { SecuritySearchResponse } from '../../../../interfaces/security';
 import { WatchlistRequest } from '../../../../interfaces/watchlist';
 
 export type WatchlistAddFormProps = {
-  security?: SecurityResponse;
+  security?: SecuritySearchResponse;
 };
 
 export default function WatchlistAddForm({ security }: WatchlistAddFormProps) {

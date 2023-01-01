@@ -1,19 +1,19 @@
 import { Card, Divider } from 'antd';
 import Link from 'next/link';
 import { ReactElement, useState } from 'react';
-import { SecurityResponse } from '../../../interfaces/security';
+import { SecuritySearchResponse } from '../../../interfaces/security';
 import DashboardLayout from '../../../layout/dashboard';
 import SearchForm from './components/SearchForm';
 import WatchlistAddForm from './components/WatchlistAddForm';
 
 export default function SecurityAddPage() {
-  const [security, setSecurity] = useState<SecurityResponse>();
+  const [security, setSecurity] = useState<SecuritySearchResponse>();
 
   const resetForm = () => {
     setSecurity(undefined);
   };
 
-  const onSecurityFound = (security: SecurityResponse) => {
+  const onSecurityFound = (security: SecuritySearchResponse) => {
     setSecurity(security);
   };
 
