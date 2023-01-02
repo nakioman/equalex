@@ -1,8 +1,11 @@
 -- CreateEnum
-CREATE TYPE "AssetType" AS ENUM ('BOND', 'EQUITY');
+CREATE TYPE "SearchEngineType" AS ENUM ('YAHOO_FINANCE', 'RAVA_BURSATIL');
 
 -- CreateEnum
-CREATE TYPE "Sector" AS ENUM ('TECHNOLOGY');
+CREATE TYPE "SecurityType" AS ENUM ('BOND', 'EQUITY');
+
+-- CreateEnum
+CREATE TYPE "SecuritySectorType" AS ENUM ('TECHNOLOGY', 'ARGENTINA_BOND');
 
 -- CreateTable
 CREATE TABLE "WatchList" (
@@ -20,10 +23,11 @@ CREATE TABLE "Security" (
     "id" TEXT NOT NULL,
     "ticker" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "sector" "Sector" NOT NULL,
+    "sector" "SecuritySectorType" NOT NULL,
     "lastPrice" DECIMAL(65,30),
     "dailyChange" DECIMAL(65,30),
-    "type" "AssetType" NOT NULL,
+    "type" "SecurityType" NOT NULL,
+    "searchEngine" "SearchEngineType" NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 

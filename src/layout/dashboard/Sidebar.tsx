@@ -26,22 +26,8 @@ function Footer() {
       width={250}
     >
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        {!collapsed && (
-          <Image
-            src={logoImage}
-            alt="Equalex"
-            height={42}
-            style={{ margin: 4 }}
-          />
-        )}
-        {collapsed && (
-          <Image
-            src={logoIconImage}
-            alt="Equalex"
-            height={42}
-            style={{ margin: 4 }}
-          />
-        )}
+        {!collapsed && <Image src={logoImage} alt="Equalex" height={42} style={{ margin: 4 }} />}
+        {collapsed && <Image src={logoIconImage} alt="Equalex" height={42} style={{ margin: 4 }} />}
       </div>
       <Menu
         selectedKeys={[router.route]}

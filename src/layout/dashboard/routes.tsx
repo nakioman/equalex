@@ -16,15 +16,11 @@ const Routes: MenuItem[] = [
     type: 'group',
     children: [
       {
-        label: 'All',
-        key: '/security',
+        label: 'Watchlist',
+        key: '/watchlist',
         icon: <AiOutlineStock />,
       },
-      {
-        label: 'Transactions',
-        key: '/security/transaction',
-        icon: <AiOutlineStock />,
-      },
+
     ],
   },
 ];
