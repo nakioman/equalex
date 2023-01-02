@@ -1,11 +1,11 @@
+import { SearchEngineType } from '@prisma/client';
 import { Button, Form, Input, message, Select } from 'antd';
 import { useState } from 'react';
-import { SecurityType } from '../../../interfaces/enums';
 import { SecuritySearchResponse } from '../../../interfaces/security';
 
 export type SearchTickerForm = {
   ticker: string;
-  type: SecurityType;
+  searchEngine: SearchEngineType;
 };
 
 export type SearchFormProps = {
@@ -20,7 +20,7 @@ export default function SearchForm({ onValuesChange, onSecurityFound }: SearchFo
 
   const onFinish = async (values: SearchTickerForm) => {
     setSearching(true);
-    const res = await fetch(`/api/security/search?type=${values.type}&ticker=${values.ticker}`);
+    const res = await fetch(`/api/security/search?searchEngine=${values.searchEngine}&ticker=${values.ticker}`);
     if (res.ok) {
       const json = await res.json();
       if (onSecurityFound) {
@@ -40,16 +40,16 @@ export default function SearchForm({ onValuesChange, onSecurityFound }: SearchFo
         layout="inline"
         form={tickerForm}
         onFinish={onFinish}
-        initialValues={{ type: SecurityType.EQUITY }}
+        initialValues={{ searchEngine: SearchEngineType.YAHOO_FINANCE }}
         onValuesChange={onValuesChange}
       >
         <Form.Item label="Ticker" name="ticker" rules={[{ required: true, message: 'Please input a ticker to find' }]}>
           <Input autoFocus />
         </Form.Item>
-        <Form.Item name="type" label="Type" rules={[{ required: true }]}>
+        <Form.Item name="searchEngine" label="Search Engine" rules={[{ required: true }]}>
           <Select>
-            <Select.Option value={SecurityType.BOND}>Bond</Select.Option>
-            <Select.Option value={SecurityType.EQUITY}>Equity</Select.Option>
+            <Select.Option value={SearchEngineType.YAHOO_FINANCE}>Yahoo Finance</Select.Option>
+            <Select.Option value={SearchEngineType.RAVA_BURSATIL}>Rava Bursatil</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item>

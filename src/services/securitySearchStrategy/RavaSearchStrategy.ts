@@ -1,6 +1,6 @@
+import { SearchEngineType, SecurityType } from '@prisma/client';
 import dayjs from 'dayjs';
 import { ISecuritySearchStrategy } from '.';
-import { SecurityType } from '../../interfaces/enums';
 import { SecuritySearchResponse } from '../../interfaces/security';
 
 const ravaPublicUrl = 'https://clasico.rava.com/lib/restapi/v3/publico/cotizaciones/historicos';
@@ -47,6 +47,7 @@ export default class RavaSearchStrategy implements ISecuritySearchStrategy {
         lastPrice: prices[0].cierre,
         dailyChange: dailyChange,
         dailyChangePercentage: dailyChangePercentage,
+        searchEngine: SearchEngineType.RAVA_BURSATIL,
       };
     }
 

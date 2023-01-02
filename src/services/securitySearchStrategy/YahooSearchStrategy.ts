@@ -1,3 +1,4 @@
+import { SearchEngineType, SecurityType } from '@prisma/client';
 import yahooFinance from 'yahoo-finance2';
 import { ISecuritySearchStrategy } from '.';
 import { SecuritySearchResponse } from '../../interfaces/security';
@@ -9,10 +10,11 @@ export default class YahooFinanceSearch implements ISecuritySearchStrategy {
       return {
         name: quote.longName ?? quote.shortName ?? quote.symbol,
         ticker: quote.symbol,
-        type: 'EQUITY',
         dailyChange: quote.regularMarketChange,
+        type: SecurityType.EQUITY,
         dailyChangePercentage: quote.regularMarketChangePercent ? quote.regularMarketChangePercent / 100 : undefined,
         lastPrice: quote.regularMarketPrice,
+        searchEngine: SearchEngineType.YAHOO_FINANCE,
       };
     }
     return null;

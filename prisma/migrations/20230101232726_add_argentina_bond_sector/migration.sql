@@ -1,2 +1,0 @@
--- AlterEnum
-ALTER TYPE "Sector" ADD VALUE 'ARGENTINA_BOND';

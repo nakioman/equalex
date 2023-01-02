@@ -40,12 +40,15 @@ export default async function saveWatchlist(body: WatchlistRequest, res: NextApi
 }
 
 async function createSecurity(body: WatchlistRequest): Promise<Prisma.SecurityCreateWithoutWatchListInput> {
-  const security = (await new SecuritySearchStrategyManager(body.type).search(body.ticker)) as SecuritySearchResponse;
+  const security = (await new SecuritySearchStrategyManager(body.searchEngine).search(
+    body.ticker
+  )) as SecuritySearchResponse;
 
   return {
     ticker: security.ticker,
     name: body.name,
     sector: body.sector,
     type: body.type,
+    searchEngine: body.searchEngine,
   };
 }

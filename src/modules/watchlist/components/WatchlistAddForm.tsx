@@ -1,7 +1,7 @@
+import { SecuritySectorType, SecurityType } from '@prisma/client';
 import { Button, Form, Input, message, Row, Select, Space } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { SecuritySectorType } from '../../../interfaces/enums';
 import { SecuritySearchResponse } from '../../../interfaces/security';
 import { WatchlistRequest } from '../../../interfaces/watchlist';
 
@@ -50,7 +50,7 @@ export default function WatchlistAddForm({ security }: WatchlistAddFormProps) {
         layout="vertical"
         onFinish={saveSecurity}
       >
-        <Form.Item hidden name="type">
+        <Form.Item hidden name="searchEngine">
           <Input hidden />
         </Form.Item>
         <Row>
@@ -64,16 +64,20 @@ export default function WatchlistAddForm({ security }: WatchlistAddFormProps) {
           </Space>
         </Row>
         <Row>
-          <Form.Item
-            name="sector"
-            label="Sector"
-            rules={[{ required: true, message: 'You must choose the security sector' }]}
-          >
-            <Select style={{ width: 400 }}>
-              <Select.Option value={SecuritySectorType.TECHNOLOGY}>Technology</Select.Option>
-              <Select.Option value={SecuritySectorType.ARGENTINA_BOND}>Argentina Treasure</Select.Option>
-            </Select>
-          </Form.Item>
+          <Space align='baseline'>
+            <Form.Item name="type" label="Type" rules={[{ required: true, message: 'You must choose a type' }]}>
+              <Select style={{ width: 100 }}>
+                <Select.Option value={SecurityType.BOND}>Bond</Select.Option>
+                <Select.Option value={SecurityType.EQUITY}>Equity</Select.Option>
+              </Select>
+            </Form.Item>
+            <Form.Item name="sector" label="Sector" rules={[{ required: true, message: 'You must choose the security sector' }]}>
+              <Select style={{ width: 400 }}>
+                <Select.Option value={SecuritySectorType.TECHNOLOGY}>Technology</Select.Option>
+                <Select.Option value={SecuritySectorType.ARGENTINA_BOND}>Argentina Treasure</Select.Option>
+              </Select>
+            </Form.Item>
+          </Space>
         </Row>
         <Row>
           <Space align="baseline">

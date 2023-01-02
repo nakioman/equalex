@@ -1,4 +1,4 @@
-import { SecurityType } from '../../interfaces/enums';
+import { SearchEngineType } from '@prisma/client';
 import { SecuritySearchResponse } from '../../interfaces/security';
 import RavaSearchStrategy from './RavaSearchStrategy';
 import YahooFinanceSearchStrategy from './YahooSearchStrategy';
@@ -9,16 +9,16 @@ export interface ISecuritySearchStrategy {
 
 export default class SecuritySearchStrategyManager {
   protected securityType;
-  constructor(type: string) {
-    switch (type) {
-      case SecurityType.EQUITY:
+  constructor(searchEngine: SearchEngineType) {
+    switch (searchEngine) {
+      case SearchEngineType.YAHOO_FINANCE:
         this.securityType = new YahooFinanceSearchStrategy();
         break;
-      case SecurityType.BOND:
+      case SearchEngineType.RAVA_BURSATIL:
         this.securityType = new RavaSearchStrategy();
         break;
       default:
-        throw new Error(`SecurityTypeSearch not supported ${type}`);
+        throw new Error(`SearchEngineType not supported ${searchEngine}`);
     }
   }
 

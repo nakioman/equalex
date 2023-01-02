@@ -20,16 +20,17 @@ model WatchList {
 }
 
 model Security {
-  id                    String      @id @default(cuid())
-  ticker                String      @unique
+  id                    String             @id @default(cuid())
+  ticker                String             @unique
   name                  String
-  sector                Sector
+  sector                SecuritySectorType
   lastPrice             Decimal?
   dailyChange           Decimal?
-  type                  AssetType
+  type                  SecurityType
+  searchEngine          SearchEngineType
   dailyHistoricalPrices PriceData[]
-  createdAt             DateTime    @default(now()) @map(name: "created_at")
-  updatedAt             DateTime    @updatedAt @map(name: "updated_at")
+  createdAt             DateTime           @default(now()) @map(name: "created_at")
+  updatedAt             DateTime           @updatedAt @map(name: "updated_at")
   WatchList             WatchList[]
 }
 
@@ -45,12 +46,17 @@ model PriceData {
   securityId String
 }
 
-enum AssetType {
+enum SearchEngineType {
+  YAHOO_FINANCE
+  RAVA_BURSATIL
+}
+
+enum SecurityType {
   BOND
   EQUITY
 }
 
-enum Sector {
+enum SecuritySectorType {
   TECHNOLOGY
   ARGENTINA_BOND
 }

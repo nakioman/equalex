@@ -1,10 +1,11 @@
-import { SecuritySectorType, SecurityType } from './enums';
+import { SearchEngineType, SecuritySectorType, SecurityType } from '@prisma/client';
 
 export type WatchlistRequest = {
   ticker: string;
   type: SecurityType;
   sector: SecuritySectorType;
   name: string;
+  searchEngine: SearchEngineType;
 };
 
 export type WatchlistResponse = {
@@ -17,4 +18,5 @@ export type WatchlistResponse = {
   dailyChangePercentage?: number;
   type: SecurityType;
   updatedAt?: Date;
+  searchEngine: SearchEngineType;
 };
