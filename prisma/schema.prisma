@@ -17,33 +17,40 @@ model WatchList {
   securityId String
   createdAt  DateTime @default(now()) @map(name: "created_at")
   updatedAt  DateTime @updatedAt @map(name: "updated_at")
+
+  @@index([userId])
 }
 
 model Security {
-  id                    String             @id @default(cuid())
-  ticker                String             @unique
-  name                  String
-  sector                SecuritySectorType
-  lastPrice             Decimal?
-  dailyChange           Decimal?
-  type                  SecurityType
-  searchEngine          SearchEngineType
-  dailyHistoricalPrices PriceData[]
-  createdAt             DateTime           @default(now()) @map(name: "created_at")
-  updatedAt             DateTime           @updatedAt @map(name: "updated_at")
-  WatchList             WatchList[]
+  id                             String             @id @default(cuid())
+  ticker                         String             @unique
+  name                           String
+  sector                         SecuritySectorType
+  lastPrice                      Decimal?
+  dailyChange                    Decimal?
+  type                           SecurityType
+  searchEngine                   SearchEngineType
+  dailyHistoricalPrices          PriceData[]
+  createdAt                      DateTime           @default(now()) @map(name: "created_at")
+  updatedAt                      DateTime           @updatedAt @map(name: "updated_at")
+  WatchList                      WatchList[]
+  dailyHistoricalPricesUpdatedAt DateTime?
+
+  @@index([id])
 }
 
 model PriceData {
-  id         BigInt   @id @default(autoincrement())
   date       DateTime
   open       Decimal
   high       Decimal
   low        Decimal
   close      Decimal
   volume     BigInt
-  security   Security @relation(fields: [securityId], references: [id])
+  security   Security @relation(fields: [securityId], references: [id], onDelete: Cascade)
   securityId String
+
+  @@id([date, securityId])
+  @@index([securityId, date])
 }
 
 enum SearchEngineType {

@@ -30,13 +30,13 @@ CREATE TABLE "Security" (
     "searchEngine" "SearchEngineType" NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+    "dailyHistoricalPricesUpdatedAt" TIMESTAMP(3),
 
     CONSTRAINT "Security_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "PriceData" (
-    "id" BIGSERIAL NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "open" DECIMAL(65,30) NOT NULL,
     "high" DECIMAL(65,30) NOT NULL,
@@ -45,14 +45,23 @@ CREATE TABLE "PriceData" (
     "volume" BIGINT NOT NULL,
     "securityId" TEXT NOT NULL,
 
-    CONSTRAINT "PriceData_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "PriceData_pkey" PRIMARY KEY ("date","securityId")
 );
 
 -- CreateIndex
+CREATE INDEX "WatchList_userId_idx" ON "WatchList"("userId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Security_ticker_key" ON "Security"("ticker");
+
+-- CreateIndex
+CREATE INDEX "Security_id_idx" ON "Security"("id");
+
+-- CreateIndex
+CREATE INDEX "PriceData_securityId_date_idx" ON "PriceData"("securityId", "date");
 
 -- AddForeignKey
 ALTER TABLE "WatchList" ADD CONSTRAINT "WatchList_securityId_fkey" FOREIGN KEY ("securityId") REFERENCES "Security"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PriceData" ADD CONSTRAINT "PriceData_securityId_fkey" FOREIGN KEY ("securityId") REFERENCES "Security"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "PriceData" ADD CONSTRAINT "PriceData_securityId_fkey" FOREIGN KEY ("securityId") REFERENCES "Security"("id") ON DELETE CASCADE ON UPDATE CASCADE;
