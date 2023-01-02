@@ -1,9 +1,9 @@
-import { Typography } from "antd";
-import { ColumnsType } from "antd/es/table";
-import dayjs from "dayjs";
-import { WatchlistResponse } from "../../../interfaces/watchlist";
-import { nameof } from "../../../lib/utils";
-import RowActions from "./RowActions";
+import { Typography } from 'antd';
+import { ColumnsType } from 'antd/es/table';
+import dayjs from 'dayjs';
+import { WatchlistResponse } from '../../../interfaces/watchlist';
+import { nameof } from '../../../lib/utils';
+import RowActions from './RowActions';
 
 const { Text } = Typography;
 
@@ -26,6 +26,7 @@ const columns = (refresh: () => void): ColumnsType<WatchlistResponse> => [
     width: 200,
     dataIndex: nameof<WatchlistResponse>('lastPrice'),
     sorter: (a, b) => (a.lastPrice && b.lastPrice ? a.lastPrice - b.lastPrice : 0),
+    render: (value) => (value ? Math.round((value + Number.EPSILON) * 100) / 100 : ''),
   },
   {
     title: 'Δ %',
@@ -34,9 +35,7 @@ const columns = (refresh: () => void): ColumnsType<WatchlistResponse> => [
     dataIndex: nameof<WatchlistResponse>('dailyChangePercentage'),
     sorter: (a, b) =>
       a.dailyChangePercentage && b.dailyChangePercentage ? a.dailyChangePercentage - b.dailyChangePercentage : 0,
-    render: (value) => (
-      <Text type={value > 0 ? 'success' : 'danger'}>{(value * 100)?.toFixed(2)}</Text>
-    ),
+    render: (value) => <Text type={value > 0 ? 'success' : 'danger'}>{value ? (value * 100).toPrecision(2) : ''}</Text>,
   },
   {
     title: 'Δ amount',
@@ -44,7 +43,11 @@ const columns = (refresh: () => void): ColumnsType<WatchlistResponse> => [
     width: 200,
     dataIndex: nameof<WatchlistResponse>('dailyChange'),
     sorter: (a, b) => (a.dailyChange && b.dailyChange ? a.dailyChange - b.dailyChange : 0),
-    render: (value) => <Text type={value > 0 ? 'success' : 'danger'}>{value}</Text>,
+    render: (value) => (
+      <Text type={value > 0 ? 'success' : 'danger'}>
+        {value ? Math.round((value + Number.EPSILON) * 100) / 100 : ''}
+      </Text>
+    ),
   },
   {
     title: 'Updated',

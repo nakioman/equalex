@@ -4,6 +4,7 @@ import { SecuritySearchResponse } from '../../../interfaces/security';
 import { WatchlistRequest } from '../../../interfaces/watchlist';
 import prisma from '../../../lib/prisma';
 import SecuritySearchStrategyManager from '../../../services/securitySearchStrategy';
+import updateSecurities from '../../worker/api/updateSecurities';
 
 export default async function saveWatchlist(body: WatchlistRequest, res: NextApiResponse) {
   const exists = await prisma.watchList.findFirst({
@@ -35,7 +36,10 @@ export default async function saveWatchlist(body: WatchlistRequest, res: NextApi
     },
   });
 
-  if (created) return res.status(201).end();
+  if (created) {
+    await updateSecurities(res, body.ticker);
+    return res.status(201).end();
+  }
   return res.status(500).end();
 }
 
