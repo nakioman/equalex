@@ -22,13 +22,14 @@ export default function SecurityPage() {
       const res = await fetch('/api/watchlist');
 
       if (!res.ok) setShowError(true);
-
-      const json = await res.json();
-      setWatchlist(json);
+      else {
+        const json = await res.json();
+        setWatchlist(json);
+      }
       setLoading(false);
     }
     getSecurities();
-  }, [watchlist]);
+  }, [loading]);
 
   return (
     <>
