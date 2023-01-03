@@ -20,23 +20,30 @@ export default async function updateSecurities(res: NextApiResponse, ticker?: st
 
   logger.info(`Found ${securities.length} securities to update`);
   if (securities) {
-    const tasks: Promise<any>[] = [];
+    for (let i = 0; i < securities.length; i++) {
+      try {
+        const security = securities[i];
+        logger.info(`Updating security ${security.ticker} from ${security.dailyHistoricalPricesUpdatedAt ?? 'ALL'}`);
+        var prices = await new SecuritySearchStrategyManager(security.searchEngine).getDailyPrices(
+          security.ticker,
+          security.dailyHistoricalPricesUpdatedAt ?? undefined
+        );
 
-    securities.forEach(async (security) => {
-      logger.info(`Updating security ${security.ticker}`);
-      var prices = await new SecuritySearchStrategyManager(security.searchEngine).getDailyPrices(
-        security.ticker,
-        security.dailyHistoricalPricesUpdatedAt ?? undefined
-      );
+        if (prices && prices?.length > 0) {
+          const deleteOldPrices = prisma.priceData.deleteMany({
+            where: {
+              OR: prices.map(
+                (price) =>
+                  <Prisma.PriceDataWhereInput>{
+                    date: price.date,
+                    securityId: security.id,
+                  }
+              ),
+            },
+          });
 
-      if (prices && prices?.length > 0) {
-        const pricesAdd = prisma.priceData.createMany({
-          data: prices
-            .filter(
-              (price) =>
-                !security.dailyHistoricalPricesUpdatedAt || price.date > security.dailyHistoricalPricesUpdatedAt
-            )
-            .map(
+          const pricesAdd = prisma.priceData.createMany({
+            data: prices.map(
               (price) =>
                 <Prisma.PriceDataCreateManyInput>{
                   close: price.close,
@@ -48,25 +55,26 @@ export default async function updateSecurities(res: NextApiResponse, ticker?: st
                   volume: price.volume,
                 }
             ),
-        });
+          });
 
-        const securityUpdate = prisma.security.update({
-          where: { id: security.id },
-          data: {
-            dailyChange: prices.length > 2 ? prices[0].close - prices[1].close : null,
-            dailyHistoricalPricesUpdatedAt: prices[0].date,
-            lastPrice: prices[0].close,
-          },
-        });
+          const securityUpdate = prisma.security.update({
+            where: { id: security.id },
+            data: {
+              dailyChange: prices.length > 2 ? prices[0].close - prices[1].close : null,
+              dailyHistoricalPricesUpdatedAt: prices[0].date,
+              lastPrice: prices[0].close,
+            },
+          });
 
-        const task = prisma.$transaction([pricesAdd, securityUpdate]);
-        tasks.push(task);
-      } else {
-        logger.info(prices ? prices[0] : `No hay datos para ${security.ticker}`);
+          await prisma.$transaction([deleteOldPrices, pricesAdd, securityUpdate]);
+        } else {
+          logger.info(prices ? prices[0] : `No hay datos para ${security.ticker}`);
+        }
+      } catch (err) {
+        logger.error(err, 'Error updating securities');
+        return res.status(500).end();
       }
-    });
-
-    await Promise.all(tasks);
+    }
   }
 
   logger.info('Finished updating securities.');

@@ -4,7 +4,7 @@ import { ISecuritySearchStrategy } from '.';
 import { SecurityPriceData, SecuritySearchResponse } from '../../interfaces/security';
 
 export default class YahooFinanceSearch implements ISecuritySearchStrategy {
-  async getDailyPrices(ticker: string, startDate?: Date | undefined): Promise<SecurityPriceData[] | null> {
+  async getDailyPrices(ticker: string, startDate?: Date): Promise<SecurityPriceData[] | null> {
     const prices = await yahooFinance.historical(ticker, {
       period1: startDate ?? 0,
     });
