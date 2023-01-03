@@ -4,7 +4,7 @@ import { ClientSafeProvider, getProviders, LiteralUnion, signIn } from "next-aut
 import Image from 'next/image';
 import { useRouter } from "next/router";
 import { useState } from "react";
-import logoImage from '../../../public/img/logo.png';
+import logoImage from '../../public/img/logo.png';
 import Footer from "../layout/dashboard/Footer";
 
 type SignInPageProps = {
