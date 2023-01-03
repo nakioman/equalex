@@ -64,17 +64,33 @@ export default function WatchlistAddForm({ security }: WatchlistAddFormProps) {
           </Space>
         </Row>
         <Row>
-          <Space align='baseline'>
+          <Space align="baseline">
             <Form.Item name="type" label="Type" rules={[{ required: true, message: 'You must choose a type' }]}>
               <Select style={{ width: 100 }}>
                 <Select.Option value={SecurityType.BOND}>Bond</Select.Option>
                 <Select.Option value={SecurityType.EQUITY}>Equity</Select.Option>
               </Select>
             </Form.Item>
-            <Form.Item name="sector" label="Sector" rules={[{ required: true, message: 'You must choose the security sector' }]}>
+            <Form.Item
+              name="sector"
+              label="Sector"
+              rules={[{ required: true, message: 'You must choose the security sector' }]}
+            >
               <Select style={{ width: 400 }}>
                 <Select.Option value={SecuritySectorType.TECHNOLOGY}>Technology</Select.Option>
                 <Select.Option value={SecuritySectorType.ARGENTINA_BOND}>Argentina Treasure</Select.Option>
+                <Select.Option value={SecuritySectorType.AEROSPACE}>Aerospace</Select.Option>
+                <Select.Option value={SecuritySectorType.BASIC_MATERIALS}>Basic materials</Select.Option>
+                <Select.Option value={SecuritySectorType.COMMUNICATION_SERVICES}>Communication services</Select.Option>
+                <Select.Option value={SecuritySectorType.CONSUMER_DEFENSIVE}>Consumer defensive</Select.Option>
+                <Select.Option value={SecuritySectorType.ELECTRONIC_ENTERTAINMENT}>
+                  Electronic entertainment
+                </Select.Option>
+                <Select.Option value={SecuritySectorType.ENERGY}>Energy</Select.Option>
+                <Select.Option value={SecuritySectorType.FINANCIAL}>Financial</Select.Option>
+                <Select.Option value={SecuritySectorType.HEALTHCARE}>Healthcare</Select.Option>
+                <Select.Option value={SecuritySectorType.REAL_STATE}>Real state</Select.Option>
+                <Select.Option value={SecuritySectorType.UTILITIES}>Utilities</Select.Option>
               </Select>
             </Form.Item>
           </Space>
