@@ -1,12 +1,12 @@
 import { NextApiResponse } from 'next';
 import prisma from '../../../lib/prisma';
 
-export default async function deleteWatchlist(id: string | undefined, res: NextApiResponse) {
+export default async function deleteWatchlist(id: string | undefined, userId: string, res: NextApiResponse) {
   if (!id) return res.status(400).end();
 
-  const deleted = await prisma.watchList.delete({
+  const deleted = await prisma.watchList.deleteMany({
     where: {
-      id: id,
+      AND: [{ id: id }, { userId: userId }],
     },
   });
 

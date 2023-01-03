@@ -7,10 +7,11 @@ Equalex is a web app built using NextJS to track your investment portfolio perfo
 - [PostgreSQL](https://www.postgresql.org) as the database
 - [TypeScript](https://www.typescriptlang.org/)  as the programming language
 - [Ant Design](https://ant.design/) for UI components
+- [NextAuth.js](https://next-auth.js.org/) for authentication
 
 ## Getting Started
 
-First, run the development server:
+First configure the [environment variables](.env.local.example), then run the development server:
 
 ```bash
 npm run dev

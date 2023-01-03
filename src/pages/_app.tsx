@@ -1,6 +1,7 @@
 import { ConfigProvider, theme } from 'antd';
 import 'antd/dist/reset.css';
 import { NextPage } from 'next';
+import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ReactElement, ReactNode } from 'react';
@@ -29,7 +30,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <ConfigProvider theme={customTheme}>{getLayout(<Component {...pageProps} />)}</ConfigProvider>
+      <SessionProvider session={pageProps.session}>
+        <ConfigProvider theme={customTheme}>{getLayout(<Component {...pageProps} />)}</ConfigProvider>
+      </SessionProvider>
     </>
   );
 }
