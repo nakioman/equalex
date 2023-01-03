@@ -31,18 +31,23 @@ export default async function updateSecurities(res: NextApiResponse, ticker?: st
 
       if (prices && prices?.length > 0) {
         const pricesAdd = prisma.priceData.createMany({
-          data: prices.map(
-            (price) =>
-              <Prisma.PriceDataCreateManyInput>{
-                close: price.close,
-                date: price.date,
-                high: price.high,
-                low: price.low,
-                open: price.open,
-                securityId: security.id,
-                volume: price.volume,
-              }
-          ),
+          data: prices
+            .filter(
+              (price) =>
+                !security.dailyHistoricalPricesUpdatedAt || price.date > security.dailyHistoricalPricesUpdatedAt
+            )
+            .map(
+              (price) =>
+                <Prisma.PriceDataCreateManyInput>{
+                  close: price.close,
+                  date: price.date,
+                  high: price.high,
+                  low: price.low,
+                  open: price.open,
+                  securityId: security.id,
+                  volume: price.volume,
+                }
+            ),
         });
 
         const securityUpdate = prisma.security.update({

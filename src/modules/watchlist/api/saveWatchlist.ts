@@ -6,17 +6,13 @@ import prisma from '../../../lib/prisma';
 import SecuritySearchStrategyManager from '../../../services/securitySearchStrategy';
 import updateSecurities from '../../worker/api/updateSecurities';
 
-export default async function saveWatchlist(body: WatchlistRequest, res: NextApiResponse) {
+export default async function saveWatchlist(body: WatchlistRequest, userId: string, res: NextApiResponse) {
   const exists = await prisma.watchList.findFirst({
     where: {
-      AND: [
-        {
-          userId: 'nacho',
-          security: {
-            ticker: body.ticker,
-          },
-        },
-      ],
+      userId: userId,
+      security: {
+        ticker: body.ticker,
+      },
     },
   });
 
@@ -24,7 +20,7 @@ export default async function saveWatchlist(body: WatchlistRequest, res: NextApi
 
   const created = await prisma.watchList.create({
     data: {
-      userId: 'nacho',
+      userId: userId,
       security: {
         connectOrCreate: {
           where: {
