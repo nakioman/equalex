@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from "next/router";
 import { useState } from "react";
 import logoImage from '../../../public/img/logo.png';
-import Footer from "../../layout/dashboard/Footer";
+import Footer from "../layout/dashboard/Footer";
 
 type SignInPageProps = {
   providers: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>
@@ -50,7 +50,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const providers = await getProviders()
   return {
     props: { providers },
