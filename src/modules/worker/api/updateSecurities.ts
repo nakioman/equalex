@@ -1,9 +1,9 @@
 import { Prisma, PrismaPromise } from '@prisma/client';
 import { NextApiResponse } from 'next';
+import { SecurityPriceData } from '../../../interfaces/security';
 import { getLogger } from '../../../lib/logging';
 import prisma from '../../../lib/prisma';
 import SecuritySearchStrategyManager from '../../../services/securitySearchStrategy';
-import { SecurityPriceData } from 'c:/Projects/equalex/src/interfaces/security';
 
 const logger = getLogger('PUT api/worker/security');
 
