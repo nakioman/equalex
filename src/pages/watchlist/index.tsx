@@ -1,6 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Stock } from '@ant-design/plots';
 import { Alert, Button, Card, Table } from 'antd';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { ReactElement, useEffect, useState } from 'react';
 import { SecurityResponse } from '../../interfaces/security';
@@ -37,13 +37,17 @@ export default function SecurityPage() {
   const asyncFetch = async () => {
     const securityId = 'clcgh6o4j0001nq01awk9llrc';
     const timeframe = 'Year';
-    const res = await fetch(`/api/security/${securityId}?timeframe=${timeframe}`)
+    const res = await fetch(`/api/security/${securityId}?timeframe=${timeframe}`);
     const json = await res.json();
     setSelectedSecurity(json);
   };
 
-  const closes = selectedSecurity ? selectedSecurity.prices.map(v => v.close) : [];
+  const closes = selectedSecurity ? selectedSecurity.prices.map((v) => v.close) : [];
   const min = Math.min(...closes) - 1;
+  const Stock = dynamic(() => import('@ant-design/plots').then(({ Stock }) => Stock), {
+    ssr: false,
+    loading: () => <div>loading...</div>,
+  });
   return (
     <>
       {showError && <Alert showIcon type="error" message="Error retreiving securities, please try again later" />}
@@ -64,7 +68,12 @@ export default function SecurityPage() {
         />
       </Card>
       <Card>
-        <Stock data={selectedSecurity ? selectedSecurity.prices : []} padding='auto' xField='date' yField={['open', 'close', 'high', 'low']} />
+        <Stock
+          data={selectedSecurity ? selectedSecurity.prices : []}
+          padding="auto"
+          xField="date"
+          yField={['open', 'close', 'high', 'low']}
+        />
       </Card>
     </>
   );
