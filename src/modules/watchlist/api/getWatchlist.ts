@@ -16,6 +16,7 @@ export default async function getWatchlist(userId: string, res: NextApiResponse<
           lastPrice: true,
           dailyChange: true,
           dailyHistoricalPricesUpdatedAt: true,
+          updatedAt: true,
         },
       },
     },
@@ -35,7 +36,8 @@ export default async function getWatchlist(userId: string, res: NextApiResponse<
           w.security.dailyChange && w.security.lastPrice
             ? w.security.dailyChange.dividedBy(w.security.lastPrice).toNumber()
             : null,
-        updatedAt: w.security.dailyHistoricalPricesUpdatedAt,
+        updatedAt: w.security.updatedAt,
+        lastPriceUpdatedAt: w.security.dailyHistoricalPricesUpdatedAt,
       }
   );
 

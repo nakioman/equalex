@@ -1,9 +1,12 @@
 import { Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { WatchlistResponse } from '../../../interfaces/watchlist';
 import { nameof } from '../../../lib/utils';
 import RowActions from './RowActions';
+
+dayjs.extend(utc);
 
 const { Text } = Typography;
 
@@ -50,10 +53,16 @@ const columns = (refresh: () => void): ColumnsType<WatchlistResponse> => [
     ),
   },
   {
+    title: 'Price Date',
+    width: 150,
+    dataIndex: nameof<WatchlistResponse>('lastPriceUpdatedAt'),
+    render: (value) => dayjs(value).utc().format('MMM D, YYYY'),
+  },
+  {
     title: 'Updated',
     width: 200,
     dataIndex: nameof<WatchlistResponse>('updatedAt'),
-    render: (value) => dayjs(value).format('MMM D, YYYY'),
+    render: (value) => dayjs(value).format('MMM D, YYYY HH:mm'),
   },
   {
     title: 'Action',
