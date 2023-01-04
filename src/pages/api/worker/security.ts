@@ -10,7 +10,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'DELETE':
       return await cleanSecurities(res);
     case 'PUT':
-      return await updateSecurities(res);
+      const { ticker } = req.query;
+      return await updateSecurities(res, ticker as string | undefined);
     default:
       res.status(405).end();
   }

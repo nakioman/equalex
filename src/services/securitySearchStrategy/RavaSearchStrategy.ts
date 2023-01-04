@@ -1,9 +1,9 @@
 import { SearchEngineType, SecurityType } from '@prisma/client';
+import { load as cheerioLoad } from 'cheerio';
 import dayjs from 'dayjs';
+import { launch as puppeteerLaunch } from 'puppeteer';
 import { ISecuritySearchStrategy } from '.';
 import { SecurityPriceData, SecuritySearchResponse } from '../../interfaces/security';
-
-const ravaPublicUrl = 'https://clasico.rava.com/lib/restapi/v3/publico/cotizaciones/historicos';
 
 type RavaHistoricResult = {
   body: RavaPriceData[];
@@ -23,6 +23,10 @@ type RavaPriceData = {
 };
 
 export default class RavaSearchStrategy implements ISecuritySearchStrategy {
+  static ravaPublicUrl: string = 'https://clasico.rava.com/lib/restapi/v3/publico/cotizaciones/historicos';
+  static ravaHomeUrl: string = 'https://www.rava.com';
+  static accessToken?: string;
+
   async getDailyPrices(ticker: string, startDate?: Date): Promise<SecurityPriceData[] | null> {
     const validStartDate = startDate ? dayjs(startDate).format('YYYY-MM-DD') : '0000-00-00';
     const prices = await this.getPrices(ticker, validStartDate);
@@ -64,13 +68,15 @@ export default class RavaSearchStrategy implements ISecuritySearchStrategy {
   }
 
   private async getPrices(ticker: string, startDate: string): Promise<RavaPriceData[] | null> {
+    if (!RavaSearchStrategy.accessToken) await this.getAccessToken();
+
     const endDate = dayjs().format('YYYY-MM-DD');
-    const pricesResult = await fetch(ravaPublicUrl, {
+    const pricesResult = await fetch(RavaSearchStrategy.ravaPublicUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
-      body: `access_token=${process.env.RAVA_ACCESS_TOKEN}&especie=${ticker}&fecha_inicio=${startDate}&fecha_fin=${endDate}`,
+      body: `access_token=${RavaSearchStrategy.accessToken}&especie=${ticker}&fecha_inicio=${startDate}&fecha_fin=${endDate}`,
     });
 
     if (pricesResult.ok) {
@@ -80,6 +86,25 @@ export default class RavaSearchStrategy implements ISecuritySearchStrategy {
       return prices;
     }
 
+    if (pricesResult.status === 403) {
+      RavaSearchStrategy.accessToken = undefined;
+      return await this.getPrices(ticker, startDate);
+    }
+
     return null;
+  }
+
+  private async getAccessToken() {
+    const browser = await puppeteerLaunch({
+      headless: true,
+    });
+    const page = await browser.newPage();
+    await page.goto(RavaSearchStrategy.ravaHomeUrl);
+    const content = await page.content();
+
+    const $ = cheerioLoad(content);
+    const access_token = $('#buscador-wrapper').attr('access_token');
+
+    RavaSearchStrategy.accessToken = access_token;
   }
 }
