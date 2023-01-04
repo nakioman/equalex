@@ -36,6 +36,9 @@ RUN adduser --system --uid 1001 nextjs
 # Add missing chromium browser
 RUN apt update && apt install chromium -y
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+RUN usermod nextjs -g nodejs -G audio,video \
+    mkdir -p /home/nextjs/Downloads \
+    chown -R nextjs:nodejs /home/nextjs
 
 COPY --from=builder /app/public ./public
 
