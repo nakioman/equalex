@@ -6,5 +6,5 @@ export function getLogger(name: string): Logger {
     colorize: true,
   });
 
-  return pino({ name, level: 'info' }, stream);
+  return pino({ name, level: process.env.LOGGER_LEVEL ?? 'info' }, stream);
 }
