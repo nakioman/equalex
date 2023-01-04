@@ -2,6 +2,8 @@
 FROM node:lts AS deps
 WORKDIR /app
 
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+
 # Install dependencies
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -30,6 +32,10 @@ ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+
+# Add missing chromium browser
+RUN apt update && apt install chromium -y
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 COPY --from=builder /app/public ./public
 
