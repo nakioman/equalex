@@ -16,6 +16,7 @@ export default async function getWatchlist(userId: string, res: NextApiResponse<
           lastPrice: true,
           dailyChange: true,
           dailyHistoricalPricesUpdatedAt: true,
+          id: true,
           updatedAt: true,
         },
       },
@@ -25,6 +26,7 @@ export default async function getWatchlist(userId: string, res: NextApiResponse<
   var response = securities.map(
     (w) =>
       <WatchlistResponse>{
+        securityId: w.security.id,
         id: w.id,
         name: w.security.name,
         ticker: w.security.ticker,
