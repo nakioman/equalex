@@ -19,4 +19,5 @@ export type WatchlistResponse = {
   type: SecurityType;
   updatedAt?: Date;
   searchEngine: SearchEngineType;
+  lastPriceUpdatedAt?: Date;
 };

@@ -14,7 +14,6 @@ export default function SecurityPage() {
   const [showError, setShowError] = useState<boolean>();
   const columns = Columns(() => {
     setLoading(true);
-    setWatchlist(undefined);
   });
 
   useEffect(() => {
