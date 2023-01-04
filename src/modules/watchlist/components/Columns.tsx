@@ -38,7 +38,7 @@ const columns = (refresh: () => void): ColumnsType<WatchlistResponse> => [
     dataIndex: nameof<WatchlistResponse>('dailyChangePercentage'),
     sorter: (a, b) =>
       a.dailyChangePercentage && b.dailyChangePercentage ? a.dailyChangePercentage - b.dailyChangePercentage : 0,
-    render: (value) => <Text type={value > 0 ? 'success' : 'danger'}>{value ? (value * 100).toPrecision(2) : ''}</Text>,
+    render: (value) => <Text type={value > 0 ? 'success' : 'danger'}>{value ? (value * 100).toPrecision(2) + '%' : ''}</Text>,
   },
   {
     title: 'Δ amount',
