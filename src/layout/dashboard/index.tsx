@@ -2,16 +2,14 @@ import { Layout, theme } from 'antd';
 import Head from 'next/head';
 import { ReactNode } from 'react';
 import Footer from './Footer';
-import { Header } from './Header';
+import { Header, HeaderProps } from './Header';
 import Sidebar from './Sidebar';
 
-type DashboardLayout = {
+type DashboardLayout = HeaderProps & {
   children: ReactNode;
-  breadcrumbParent?: string;
-  breadcrumbTitle?: ReactNode;
 };
 
-export default function DashboardLayout({ children, breadcrumbParent, breadcrumbTitle }: DashboardLayout) {
+export default function DashboardLayout({ children, ...props }: DashboardLayout) {
   const { Content } = Layout;
   const {
     token: { colorBgContainer },
@@ -24,7 +22,7 @@ export default function DashboardLayout({ children, breadcrumbParent, breadcrumb
       <Layout style={{ minHeight: '100vh', background: colorBgContainer }}>
         <Sidebar />
         <Layout>
-          <Header breadcrumbParent={breadcrumbParent} breadcrumbTitle={breadcrumbTitle} />
+          <Header {...props} />
           <Content style={{ margin: '10px 20px' }}>{children}</Content>
           <Footer />
         </Layout>
