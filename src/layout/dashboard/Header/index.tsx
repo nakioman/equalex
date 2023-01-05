@@ -1,5 +1,6 @@
-import { Button, Col, Dropdown, Layout, MenuProps, Row, theme, Typography } from 'antd';
-import { signOut } from "next-auth/react";
+import { Col, Dropdown, Layout, MenuProps, Row, theme, Typography } from 'antd';
+import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 import { FaCog } from 'react-icons/fa';
 import Breadcrumbs, { BreadcrumbProps } from './Breadcrumbs';
 
@@ -9,8 +10,16 @@ export interface HeaderProps extends BreadcrumbProps {
 
 const settingsItems: MenuProps['items'] = [
   {
-    key: '1',
-    label: <Button type='text' onClick={() => signOut()}>Logout</Button>,
+    key: 'settings',
+    label: <Link href="/settings">Settings</Link>,
+  },
+  {
+    key: 'signOut',
+    label: (
+      <Link href="#" onClick={() => signOut()}>
+        Logout
+      </Link>
+    ),
   },
 ];
 
