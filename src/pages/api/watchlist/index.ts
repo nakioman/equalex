@@ -9,7 +9,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   switch (req.method) {
     case 'GET':
-      return await getWatchlist(userId, res);
+      const response = await getWatchlist(userId);
+      return res.status(200).json(response);
     case 'POST':
       return await saveWatchlist(req.body, userId, res);
     default:

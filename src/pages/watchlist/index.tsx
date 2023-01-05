@@ -1,38 +1,28 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Alert, Button, Card, Table } from 'antd';
+import { Button, Card, Table } from 'antd';
+import { GetServerSidePropsContext, InferGetStaticPropsType } from 'next';
+import { getToken } from 'next-auth/jwt';
 import { useRouter } from 'next/router';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { WatchlistResponse } from '../../interfaces/watchlist';
 import DashboardLayout from '../../layout/dashboard';
 import { nameof } from '../../lib/utils';
+import getWatchlist from '../../modules/watchlist/api/getWatchlist';
 import Columns from '../../modules/watchlist/components/Columns';
 
-export default function SecurityPage() {
-  const [watchlist, setWatchlist] = useState<WatchlistResponse[] | undefined>();
+type SecurityPageProps = InferGetStaticPropsType<typeof getServerSideProps>;
+
+export default function SecurityPage({ watchlist }: SecurityPageProps) {
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [showError, setShowError] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>(false);
   const columns = Columns(() => {
     setLoading(true);
+    router.replace('/watchlist')
+    if (router.isReady) setLoading(false);
   });
-
-  useEffect(() => {
-    async function getSecurities() {
-      const res = await fetch('/api/watchlist');
-
-      if (!res.ok) setShowError(true);
-      else {
-        const json = await res.json();
-        setWatchlist(json);
-      }
-      setLoading(false);
-    }
-    getSecurities();
-  }, [loading]);
 
   return (
     <>
-      {showError && <Alert showIcon type="error" message="Error retreiving securities, please try again later" />}
       <Card
         title="Securities"
         extra={
@@ -56,3 +46,15 @@ export default function SecurityPage() {
 SecurityPage.getLayout = function getLayout(page: ReactElement) {
   return <DashboardLayout title="Watchlist">{page}</DashboardLayout>;
 };
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const token = await getToken(ctx);
+  const userId = token?.sub as string;
+  const watchlist = token ? await getWatchlist(userId) : [];
+
+  return {
+    props: {
+      watchlist
+    }
+  }
+}
