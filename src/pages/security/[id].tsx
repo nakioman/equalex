@@ -1,5 +1,6 @@
 import { Alert, Card, Radio, Row, Space } from "antd";
 import { GetServerSidePropsContext, InferGetStaticPropsType } from "next";
+import { getToken } from "next-auth/jwt";
 import Link from 'next/link';
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
@@ -9,6 +10,7 @@ import DashboardLayout from "../../layout/dashboard";
 import SecurityChart from "../../modules/security/api/components/SecurityChart";
 import SecurityPrices from "../../modules/security/api/components/SecurityPrices";
 import { getSecurity } from "../../modules/security/api/getSecurity";
+import { getSettings } from "../../modules/settings/api/getSettings";
 
 type SecurityByIdPageProps = InferGetStaticPropsType<typeof getServerSideProps> & {
   parentPage: string;
@@ -48,10 +50,19 @@ export default function SecurityByIdPage({ security, timeframe }: SecurityByIdPa
   )
 }
 
-export const getServerSideProps = async ({ query }: GetServerSidePropsContext) => {
-  const { id, timeframe } = query as ParsedUrlQuery;
-  const actualTimeframe = (timeframe ?? SecurityChartTimeFrame.Month) as SecurityChartTimeFrame;
-  const security = await getSecurity(id as string, actualTimeframe);
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const { id, timeframe } = ctx.query as ParsedUrlQuery;
+  let actualTimeframe;
+
+  if (timeframe) actualTimeframe = timeframe;
+  else {
+    const token = await getToken(ctx);
+    const userId = token?.sub as string;
+    const appSettings = await getSettings(userId);
+    actualTimeframe = appSettings?.defaultTimeframe;
+  }
+
+  const security = await getSecurity(id as string, actualTimeframe as SecurityChartTimeFrame);
   return {
     props: {
       security,

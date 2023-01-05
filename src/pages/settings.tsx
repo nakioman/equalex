@@ -1,17 +1,36 @@
 import { Button, Card, Form, message, Select } from 'antd';
+import { GetServerSidePropsContext, InferGetStaticPropsType } from 'next';
+import { getToken } from 'next-auth/jwt';
 import Link from 'next/link';
 import { ReactElement, useState } from 'react';
 import { SecurityChartTimeFrame } from '../interfaces/security';
-import { AppSettings } from '../interfaces/settings';
+import { AppSettingsModel } from '../interfaces/settings';
 import DashboardLayout from '../layout/dashboard';
 import { nameof } from '../lib/utils';
+import { getSettings } from '../modules/settings/api/getSettings';
 
-export default function SettingsPage() {
-  const [settingsForms] = Form.useForm<AppSettings>();
+type SettingsPageProps = InferGetStaticPropsType<typeof getServerSideProps>;
+
+export default function SettingsPage({ appSettings, userId }: SettingsPageProps) {
+  const [settingsForms] = Form.useForm<AppSettingsModel>();
   const [saving, setSaving] = useState<boolean>(false);
   const [messageApi, contextHolder] = message.useMessage();
 
-  const saveSettings = (values: AppSettings) => {};
+  const saveSettings = async (values: AppSettingsModel) => {
+    setSaving(true);
+    const res = await fetch(`/api/settings/${userId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values)
+    })
+
+    if (res.ok) messageApi.success({ icon: true, content: 'Settings saved succesfully', duration: 5 });
+    else messageApi.error({ icon: true, content: 'Error saving settings, please try again', duration: 5 })
+    setSaving(false);
+  };
 
   return (
     <>
@@ -23,9 +42,10 @@ export default function SettingsPage() {
           wrapperCol={{ span: 14 }}
           layout="vertical"
           onFinish={saveSettings}
+          initialValues={appSettings}
         >
           <Form.Item
-            name={nameof<AppSettings>('defaultTimeframe')}
+            name={nameof<AppSettingsModel>('defaultTimeframe')}
             label="Default chart Time frame"
             rules={[{ required: true, message: 'You must choose a default time frame' }]}
           >
@@ -59,3 +79,16 @@ SettingsPage.getLayout = function getLayout(page: ReactElement) {
     </DashboardLayout>
   );
 };
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const token = await getToken(ctx);
+  const userId = token?.sub as string;
+  const appSettings = token ? await getSettings(userId) : undefined;
+
+  return {
+    props: {
+      userId,
+      appSettings
+    }
+  }
+}
