@@ -18,7 +18,8 @@ const columns = (refresh: () => void): ColumnsType<WatchlistResponse> => [
     dataIndex: nameof<WatchlistResponse>('ticker'),
     width: 150,
     sorter: (a, b) => a.ticker.localeCompare(b.ticker),
-    render: (value, record) => <Link href={`/security/${record.securityId}`} className="ant-typograph">{value}</Link>
+    render: (value, record) => <Link href={`/security/${record.securityId}`} className="ant-typograph">{value}</Link>,
+    defaultSortOrder: 'ascend',
   },
   {
     title: 'Name',
