@@ -50,7 +50,6 @@ export default function SecurityByIdPage({ security, timeframe }: SecurityByIdPa
 
 export const getServerSideProps = async ({ query }: GetServerSidePropsContext) => {
   const { id, timeframe } = query as ParsedUrlQuery;
-  console.log(timeframe);
   const actualTimeframe = (timeframe ?? SecurityChartTimeFrame.Month) as SecurityChartTimeFrame;
   const security = await getSecurity(id as string, actualTimeframe);
   return {
