@@ -22,14 +22,16 @@ export type SecurityPriceData = {
 };
 
 export type SecurityResponse = SecuritySearchResponse & {
+  id: string;
   prices: SecurityPriceData[];
+  lastPriceUpdatedAt?: Date;
 };
 
 export enum SecurityChartTimeFrame {
   Month = 'Month',
-  SixMonth = '6Month',
+  SixMonth = 'SixMonth',
   YearToDate = 'YearToDate',
   Year = 'Year',
-  FiveYear = '5Year',
+  FiveYear = 'FiveYear',
   Max = 'Max',
 }
