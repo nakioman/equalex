@@ -1,9 +1,8 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Card, Table } from 'antd';
 import { GetServerSidePropsContext, InferGetStaticPropsType } from 'next';
 import { getToken } from 'next-auth/jwt';
 import { useRouter } from 'next/router';
 import { ReactElement, useState } from 'react';
+import EqualexTable from '../../common/components/EqualexTable';
 import { WatchlistResponse } from '../../interfaces/watchlist';
 import DashboardLayout from '../../layout/dashboard';
 import { nameof } from '../../lib/utils';
@@ -17,29 +16,19 @@ export default function SecurityPage({ watchlist }: SecurityPageProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const columns = Columns(() => {
     setLoading(true);
-    router.replace('/watchlist')
+    router.replace('/watchlist');
     if (router.isReady) setLoading(false);
   });
 
   return (
-    <>
-      <Card
-        title="Securities"
-        extra={
-          <Button icon={<PlusOutlined />} onClick={() => router.push('/watchlist/add')}>
-            Add
-          </Button>
-        }
-      >
-        <Table
-          dataSource={watchlist}
-          columns={columns}
-          rowKey={nameof<WatchlistResponse>('ticker')}
-          pagination={false}
-          loading={loading}
-        />
-      </Card>
-    </>
+    <EqualexTable
+      addLink="/watchlist/add"
+      title="Securities"
+      columns={columns}
+      dataSource={watchlist}
+      rowKey={nameof<WatchlistResponse>('ticker')}
+      loading={loading}
+    />
   );
 }
 
@@ -54,7 +43,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   return {
     props: {
-      watchlist
-    }
-  }
-}
+      watchlist,
+    },
+  };
+};
