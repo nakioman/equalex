@@ -33,9 +33,9 @@ model Security {
   dailyHistoricalPrices          PriceData[]
   createdAt                      DateTime              @default(now()) @map(name: "created_at")
   updatedAt                      DateTime              @updatedAt @map(name: "updated_at")
-  WatchList                      WatchList[]
+  watchList                      WatchList[]
   dailyHistoricalPricesUpdatedAt DateTime?
-  SecurityTransaction            SecurityTransaction[]
+  securityTransaction            SecurityTransaction[]
 
   @@index([id])
 }
@@ -83,21 +83,27 @@ model MoneyAccount {
   id                  String                @id @default(cuid())
   name                String
   type                MoneyAccountType
-  MoneyTransaction    MoneyTransaction[]
-  SecurityTransaction SecurityTransaction[]
+  userId              String
+  cashAvailable       Decimal
+  moneyTransaction    MoneyTransaction[]
+  securityTransaction SecurityTransaction[]
   createdAt           DateTime              @default(now()) @map(name: "created_at")
   updatedAt           DateTime              @updatedAt @map(name: "updated_at")
+
+  @@index(userId)
 }
 
 model MoneyTransaction {
   id          String       @id @default(cuid())
   description String?
+  userId      String
   account     MoneyAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
   accountId   String
   amount      Decimal
   createdAt   DateTime     @default(now()) @map(name: "created_at")
   updatedAt   DateTime     @updatedAt @map(name: "updated_at")
 
+  @@index([userId])
   @@index(accountId)
 }
 
@@ -108,6 +114,7 @@ model SecurityTransaction {
   accountId   String
   security    Security        @relation(fields: [securityId], references: [id], onDelete: Cascade)
   securityId  String
+  userId      String
   type        TransactionType
   openAt      DateTime
   buyPrice    Decimal?
@@ -117,6 +124,7 @@ model SecurityTransaction {
   createdAt   DateTime        @default(now()) @map(name: "created_at")
   updatedAt   DateTime        @updatedAt @map(name: "updated_at")
 
+  @@index([userId])
   @@index(accountId)
   @@index(securityId)
 }
