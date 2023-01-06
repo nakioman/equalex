@@ -64,6 +64,8 @@ export default function SecurityChart({ security, isUpdating }: SecurityChartPro
                     }
                 }
             }}
+            fallingFill='#ef5350'
+            risingFill='#26a69a'
         />
     )
 }
