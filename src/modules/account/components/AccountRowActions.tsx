@@ -1,10 +1,32 @@
-import { DeleteOutlined } from '@ant-design/icons';
-import { Button, Space } from 'antd';
+import { DeleteOutlined, ExclamationCircleFilled } from '@ant-design/icons';
+import { Button, message, Modal, Space } from 'antd';
+import { AccountResponse } from '../../../interfaces/account';
 
-export default function AccountRowActions() {
-  const deleteAccount = () => {};
+export type AccountRowActionsProps = {
+  account: AccountResponse;
+  refresh: () => void;
+};
+
+export default function AccountRowActions({ account, refresh }: AccountRowActionsProps) {
+  const { confirm } = Modal;
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const deleteAccount = () => {
+    confirm({
+      title: 'Delete account',
+      icon: <ExclamationCircleFilled />,
+      content: "Are you sure to delete this account and ALL it's transactions?",
+      async onOk() {
+        const res = await fetch(`/api/account/${account.id}`, { method: 'DELETE' });
+        if (res.ok) {
+          refresh();
+        } else messageApi.error('Error deleting account, please try again', 5);
+      },
+    });
+  };
   return (
     <>
+      {contextHolder}
       <Space>
         <Button title="Delete account" onClick={deleteAccount}>
           <DeleteOutlined />
