@@ -21,11 +21,11 @@ const traverseRoutes = (routes: MenuItem[], path: MenuItem[], pathname: string):
     }
 
     if ((route as SubMenuType)?.children != undefined) {
-      path.push(route);
-      return traverseRoutes((route as SubMenuType)?.children, path, pathname);
+      const subList = traverseRoutes((route as SubMenuType)?.children, [route, ...path], pathname);
+      if (subList && subList?.length > 0) list.push(...subList);
     }
   }
-  return null;
+  return list;
 };
 
 const useBreadcrumbPath = (parent?: string): MenuItem[] => {

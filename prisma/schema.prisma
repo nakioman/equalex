@@ -22,8 +22,8 @@ model WatchList {
 }
 
 model Security {
-  id                             String             @id @default(cuid())
-  ticker                         String             @unique
+  id                             String                @id @default(cuid())
+  ticker                         String                @unique
   name                           String
   sector                         SecuritySectorType
   lastPrice                      Decimal?
@@ -31,10 +31,11 @@ model Security {
   type                           SecurityType
   searchEngine                   SearchEngineType
   dailyHistoricalPrices          PriceData[]
-  createdAt                      DateTime           @default(now()) @map(name: "created_at")
-  updatedAt                      DateTime           @updatedAt @map(name: "updated_at")
-  WatchList                      WatchList[]
+  createdAt                      DateTime              @default(now()) @map(name: "created_at")
+  updatedAt                      DateTime              @updatedAt @map(name: "updated_at")
+  watchList                      WatchList[]
   dailyHistoricalPricesUpdatedAt DateTime?
+  securityTransaction            SecurityTransaction[]
 
   @@index([id])
 }
@@ -76,6 +77,66 @@ enum SecuritySectorType {
   REAL_STATE
   UTILITIES
   ELECTRONIC_ENTERTAINMENT
+}
+
+model MoneyAccount {
+  id                  String                @id @default(cuid())
+  name                String                @unique()
+  type                MoneyAccountType
+  userId              String
+  cashAvailable       Decimal?
+  moneyTransaction    MoneyTransaction[]
+  securityTransaction SecurityTransaction[]
+  createdAt           DateTime              @default(now()) @map(name: "created_at")
+  updatedAt           DateTime              @updatedAt @map(name: "updated_at")
+
+  @@index(userId)
+}
+
+model MoneyTransaction {
+  id          String       @id @default(cuid())
+  description String?
+  userId      String
+  account     MoneyAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId   String
+  amount      Decimal
+  createdAt   DateTime     @default(now()) @map(name: "created_at")
+  updatedAt   DateTime     @updatedAt @map(name: "updated_at")
+
+  @@index([userId])
+  @@index(accountId)
+}
+
+model SecurityTransaction {
+  id          String          @id @default(cuid())
+  description String?
+  account     MoneyAccount    @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId   String
+  security    Security        @relation(fields: [securityId], references: [id], onDelete: Cascade)
+  securityId  String
+  userId      String
+  type        TransactionType
+  openAt      DateTime
+  buyPrice    Decimal?
+  quantity    Int
+  closeAt     DateTime?
+  closePrice  Decimal?
+  createdAt   DateTime        @default(now()) @map(name: "created_at")
+  updatedAt   DateTime        @updatedAt @map(name: "updated_at")
+
+  @@index([userId])
+  @@index(accountId)
+  @@index(securityId)
+}
+
+enum TransactionType {
+  LONG
+  SHORT
+}
+
+enum MoneyAccountType {
+  SAVINGS
+  INVESTMENT
 }
 
 // NextAuth tables

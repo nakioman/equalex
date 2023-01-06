@@ -1,5 +1,5 @@
 import { MenuProps } from 'antd';
-import { AiOutlineStock } from 'react-icons/ai';
+import { AiFillBank, AiOutlineStock } from 'react-icons/ai';
 import { FaHome } from 'react-icons/fa';
 
 export type MenuItem = Required<MenuProps>['items'][number];
@@ -20,7 +20,18 @@ const Routes: MenuItem[] = [
         key: '/watchlist',
         icon: <AiOutlineStock />,
       },
-
+    ],
+  },
+  {
+    label: 'Accounts',
+    key: 'accounts',
+    type: 'group',
+    children: [
+      {
+        label: 'Summary',
+        key: '/account',
+        icon: <AiFillBank />,
+      },
     ],
   },
 ];

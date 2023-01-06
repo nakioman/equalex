@@ -3,47 +3,48 @@ import { getToken } from 'next-auth/jwt';
 import { useRouter } from 'next/router';
 import { ReactElement, useState } from 'react';
 import EqualexTable from '../../common/components/EqualexTable';
-import { WatchlistResponse } from '../../interfaces/watchlist';
+import { AccountResponse } from '../../interfaces/account';
 import DashboardLayout from '../../layout/dashboard';
 import { nameof } from '../../lib/utils';
-import getWatchlist from '../../modules/watchlist/api/getWatchlist';
-import Columns from '../../modules/watchlist/components/Columns';
+import { getAccounts } from '../../modules/account/api/getAccounts';
+import AccountColumns from '../../modules/account/components/AccountColumns';
 
-type SecurityPageProps = InferGetStaticPropsType<typeof getServerSideProps>;
+type AccountIndexPageProps = InferGetStaticPropsType<typeof getServerSideProps>;
 
-export default function SecurityPage({ watchlist }: SecurityPageProps) {
+export default function AccountIndexPage({ accounts }: AccountIndexPageProps) {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
-  const columns = Columns(() => {
+
+  const columns = AccountColumns(() => {
     setLoading(true);
-    router.replace('/watchlist');
+    router.replace('/account');
     if (router.isReady) setLoading(false);
   });
 
   return (
     <EqualexTable
-      addLink="/watchlist/add"
-      title="Securities"
+      addLink="/account/add"
+      title="Accounts"
       columns={columns}
-      dataSource={watchlist}
-      rowKey={nameof<WatchlistResponse>('ticker')}
+      dataSource={accounts}
+      rowKey={nameof<AccountResponse>('id')}
       loading={loading}
     />
   );
 }
 
-SecurityPage.getLayout = function getLayout(page: ReactElement) {
-  return <DashboardLayout title="Watchlist">{page}</DashboardLayout>;
+AccountIndexPage.getLayout = function getLayout(page: ReactElement) {
+  return <DashboardLayout title="Accounts">{page}</DashboardLayout>;
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const token = await getToken(ctx);
   const userId = token?.sub as string;
-  const watchlist = token ? await getWatchlist(userId) : [];
+  const accounts = token ? await getAccounts(userId) : [];
 
   return {
     props: {
-      watchlist,
+      accounts,
     },
   };
 };

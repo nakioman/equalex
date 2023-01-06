@@ -8,7 +8,7 @@ export default async function cleanSecurities(res: NextApiResponse) {
   logger.info('Starting cleaning unused securities...');
   const unUsedSecurities = await prisma.security.findMany({
     where: {
-      WatchList: { none: {} },
+      watchList: { none: {} },
     },
     select: {
       id: true,
