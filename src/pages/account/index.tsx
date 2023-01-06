@@ -1,6 +1,7 @@
 import { GetServerSidePropsContext, InferGetStaticPropsType } from 'next';
 import { getToken } from 'next-auth/jwt';
-import { ReactElement } from 'react';
+import { useRouter } from 'next/router';
+import { ReactElement, useState } from 'react';
 import EqualexTable from '../../common/components/EqualexTable';
 import { AccountResponse } from '../../interfaces/account';
 import DashboardLayout from '../../layout/dashboard';
@@ -11,7 +12,15 @@ import AccountColumns from '../../modules/account/components/AccountColumns';
 type AccountIndexPageProps = InferGetStaticPropsType<typeof getServerSideProps>;
 
 export default function AccountIndexPage({ accounts }: AccountIndexPageProps) {
-  const columns = AccountColumns();
+  const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const columns = AccountColumns(() => {
+    setLoading(true);
+    router.replace('/account');
+    if (router.isReady) setLoading(false);
+  });
+
   return (
     <EqualexTable
       addLink="/account/add"
@@ -19,6 +28,7 @@ export default function AccountIndexPage({ accounts }: AccountIndexPageProps) {
       columns={columns}
       dataSource={accounts}
       rowKey={nameof<AccountResponse>('id')}
+      loading={loading}
     />
   );
 }

@@ -6,7 +6,7 @@ import AccountRowActions from './AccountRowActions';
 
 const { Text } = Typography;
 
-const columns = (): ColumnsType<AccountResponse> => [
+const columns = (refresh: () => void): ColumnsType<AccountResponse> => [
   {
     title: 'Name',
     dataIndex: nameof<AccountResponse>('name'),
@@ -16,7 +16,7 @@ const columns = (): ColumnsType<AccountResponse> => [
   {
     title: 'Cash Available',
     dataIndex: nameof<AccountResponse>('cashAvailable'),
-    sorter: (a, b) => a.cashAvailable - b.cashAvailable,
+    sorter: (a, b) => (a.cashAvailable && b.cashAvailable ? a.cashAvailable - b.cashAvailable : 0),
     render: (val) => (val > 0 ? val : '-'),
     width: 250,
     align: 'right',
@@ -24,7 +24,7 @@ const columns = (): ColumnsType<AccountResponse> => [
   {
     title: 'Cash Invested',
     dataIndex: nameof<AccountResponse>('cashInvested'),
-    sorter: (a, b) => a.cashAvailable - b.cashAvailable,
+    sorter: (a, b) => (a.cashInvested && b.cashInvested ? a.cashInvested - b.cashInvested : 0),
     render: (val) => (val > 0 ? val : '-'),
     width: 250,
     align: 'right',
@@ -34,7 +34,7 @@ const columns = (): ColumnsType<AccountResponse> => [
     align: 'right',
     width: 250,
     dataIndex: nameof<AccountResponse>('dailyChangePercent'),
-    sorter: (a, b) => a.dailyChangePercent - b.dailyChangePercent,
+    sorter: (a, b) => (a.dailyChangePercent && b.dailyChangePercent ? a.dailyChangePercent - b.dailyChangePercent : 0),
     render: (value) => (
       <Text type={value > 0 ? 'success' : 'danger'}>{value ? (value * 100).toPrecision(2) + '%' : ''}</Text>
     ),
@@ -44,7 +44,7 @@ const columns = (): ColumnsType<AccountResponse> => [
     align: 'right',
     width: 250,
     dataIndex: nameof<AccountResponse>('dailyChange'),
-    sorter: (a, b) => a.dailyChange - b.dailyChange,
+    sorter: (a, b) => (a.dailyChange && b.dailyChange ? a.dailyChange - b.dailyChange : 0),
     render: (value) => (
       <Text type={value > 0 ? 'success' : 'danger'}>
         {value ? Math.round((value + Number.EPSILON) * 100) / 100 : ''}
@@ -56,7 +56,7 @@ const columns = (): ColumnsType<AccountResponse> => [
     key: 'actions',
     align: 'center',
     width: 150,
-    render: (_, record) => <AccountRowActions />,
+    render: (_, record) => <AccountRowActions account={record} refresh={refresh} />,
   },
 ];
 

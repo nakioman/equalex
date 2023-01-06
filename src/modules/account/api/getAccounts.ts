@@ -31,20 +31,21 @@ export async function getAccounts(userId: string): Promise<AccountResponse[]> {
   if (!acocunts) return [];
 
   return acocunts?.map((record) => {
-    const buyPrices: Decimal.Value[] = record.securityTransaction?.map((s) => s.buyPrice ?? 0);
-    const actualPrices: Decimal.Value[] = record.securityTransaction?.map((s) =>
+    const buyPrices = record.securityTransaction?.map((s) => s.buyPrice ?? 0);
+    const actualPrices = record.securityTransaction?.map((s) =>
       s.security.dailyHistoricalPrices.length > 0 ? s.security.dailyHistoricalPrices[0].close : 0
     );
-    const actualCashInvested = Decimal.sum(...actualPrices).toNumber();
-    const cashInvested = Decimal.sum(...buyPrices).toNumber();
-    const daliyChange = actualCashInvested - cashInvested;
+    const actualCashInvested = actualPrices?.length > 0 ? Decimal.sum(...actualPrices).toNumber() : undefined;
+    const cashInvested = buyPrices?.length > 0 ? Decimal.sum(...buyPrices).toNumber() : undefined;
+    const daliyChange = actualCashInvested && cashInvested ? actualCashInvested - cashInvested : undefined;
     return <AccountResponse>{
       id: record.id,
       name: record.name,
-      cashAvailable: record.cashAvailable.toNumber(),
+      cashAvailable: record.cashAvailable?.toNumber(),
       cashInvested: actualCashInvested,
       dailyChange: daliyChange,
-      dailyChangePercent: daliyChange > 0 ? daliyChange / actualCashInvested : 0,
+      dailyChangePercent:
+        daliyChange && actualCashInvested && actualCashInvested > 0 ? daliyChange / actualCashInvested : undefined,
     };
   });
 }
