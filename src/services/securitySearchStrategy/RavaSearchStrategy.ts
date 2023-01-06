@@ -82,11 +82,10 @@ export default class RavaSearchStrategy implements ISecuritySearchStrategy {
     if (pricesResult.ok) {
       const json: RavaHistoricResult = await pricesResult.json();
       const prices = json.body.sort((a, b) => b.timestamp - a.timestamp);
-
       return prices;
     }
 
-    if (pricesResult.status === 403) {
+    if (pricesResult.status === 401) {
       RavaSearchStrategy.accessToken = undefined;
       return await this.getPrices(ticker, startDate);
     }

@@ -1,8 +1,7 @@
-import { NextApiResponse } from 'next';
 import { WatchlistResponse } from '../../../interfaces/watchlist';
 import prisma from '../../../lib/prisma';
 
-export default async function getWatchlist(userId: string, res: NextApiResponse<WatchlistResponse[]>) {
+export default async function getWatchlist(userId: string): Promise<WatchlistResponse[]> {
   const securities = await prisma.watchList.findMany({
     where: { userId: userId },
     select: {
@@ -16,6 +15,7 @@ export default async function getWatchlist(userId: string, res: NextApiResponse<
           lastPrice: true,
           dailyChange: true,
           dailyHistoricalPricesUpdatedAt: true,
+          id: true,
           updatedAt: true,
         },
       },
@@ -25,6 +25,7 @@ export default async function getWatchlist(userId: string, res: NextApiResponse<
   var response = securities.map(
     (w) =>
       <WatchlistResponse>{
+        securityId: w.security.id,
         id: w.id,
         name: w.security.name,
         ticker: w.security.ticker,
@@ -41,5 +42,5 @@ export default async function getWatchlist(userId: string, res: NextApiResponse<
       }
   );
 
-  return res.status(200).json(response);
+  return response;
 }

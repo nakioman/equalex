@@ -2,6 +2,7 @@ import { Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import Link from 'next/link';
 import { WatchlistResponse } from '../../../interfaces/watchlist';
 import { nameof } from '../../../lib/utils';
 import RowActions from './RowActions';
@@ -17,6 +18,8 @@ const columns = (refresh: () => void): ColumnsType<WatchlistResponse> => [
     dataIndex: nameof<WatchlistResponse>('ticker'),
     width: 150,
     sorter: (a, b) => a.ticker.localeCompare(b.ticker),
+    render: (value, record) => <Link href={`/security/${record.securityId}`} className="ant-typograph">{value}</Link>,
+    defaultSortOrder: 'ascend',
   },
   {
     title: 'Name',

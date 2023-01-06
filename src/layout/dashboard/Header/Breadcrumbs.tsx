@@ -41,7 +41,7 @@ const useBreadcrumbPath = (parent?: string): MenuItem[] => {
 
 const Breadcrumbs = ({ breadcrumbParent, breadcrumbTitle }: BreadcrumbProps) => {
   const breadcrumbPath = useBreadcrumbPath(breadcrumbParent);
-  const { Title, Text, Link } = Typography;
+  const { Text, Link } = Typography;
   const router = useRouter();
 
   return (
@@ -69,7 +69,6 @@ const Breadcrumbs = ({ breadcrumbParent, breadcrumbTitle }: BreadcrumbProps) => 
         })}
         {breadcrumbTitle && <Breadcrumb.Item>{breadcrumbTitle}</Breadcrumb.Item>}
       </Breadcrumb>
-      <Title level={3}>{(breadcrumbPath[breadcrumbPath.length - 1] as MenuItemType).label}</Title>
     </>
   );
 };

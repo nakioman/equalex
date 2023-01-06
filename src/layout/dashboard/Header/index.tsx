@@ -1,19 +1,31 @@
-import { Button, Col, Dropdown, Layout, MenuProps, Row, theme, Typography } from 'antd';
-import { signOut } from "next-auth/react";
+import { Col, Dropdown, Layout, MenuProps, Row, theme, Typography } from 'antd';
+import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 import { FaCog } from 'react-icons/fa';
 import Breadcrumbs, { BreadcrumbProps } from './Breadcrumbs';
 
-export interface HeaderProps extends BreadcrumbProps { }
+export interface HeaderProps extends BreadcrumbProps {
+  title: string;
+}
 
 const settingsItems: MenuProps['items'] = [
   {
-    key: '1',
-    label: <Button type='text' onClick={() => signOut()}>Logout</Button>,
+    key: 'settings',
+    label: <Link href="/settings">Settings</Link>,
+  },
+  {
+    key: 'signOut',
+    label: (
+      <Link href="#" onClick={() => signOut()}>
+        Logout
+      </Link>
+    ),
   },
 ];
 
-export function Header(props: HeaderProps) {
+export function Header({ title, ...props }: HeaderProps) {
   const { Header: AntHeader } = Layout;
+  const { Title } = Typography;
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -28,6 +40,7 @@ export function Header(props: HeaderProps) {
       <Row>
         <Col span={23}>
           <Breadcrumbs {...props} />
+          <Title level={3}>{title}</Title>
         </Col>
         <Col span={1}>
           <Dropdown menu={{ items: settingsItems }} placement="bottom" arrow={{ pointAtCenter: true }}>

@@ -108,13 +108,14 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?       @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  AppSettings   AppSettings[]
 }
 
 model VerificationToken {
@@ -126,3 +127,9 @@ model VerificationToken {
 }
 
 // End NextAuth tables
+
+model AppSettings {
+  userId           String @id
+  user             User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  defaultTimeframe String
+}
