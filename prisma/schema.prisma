@@ -81,10 +81,10 @@ enum SecuritySectorType {
 
 model MoneyAccount {
   id                  String                @id @default(cuid())
-  name                String
+  name                String                @unique()
   type                MoneyAccountType
   userId              String
-  cashAvailable       Decimal
+  cashAvailable       Decimal?
   moneyTransaction    MoneyTransaction[]
   securityTransaction SecurityTransaction[]
   createdAt           DateTime              @default(now()) @map(name: "created_at")
