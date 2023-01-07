@@ -1,5 +1,6 @@
 import { NextApiResponse } from 'next';
 import { AccountRequest } from '../../../interfaces/account';
+import prisma from '../../../lib/prisma';
 
 export default async function saveAccount(body: AccountRequest, userId: string, res: NextApiResponse) {
   const add = await prisma.moneyAccount.create({
