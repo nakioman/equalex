@@ -1,6 +1,7 @@
 import { MenuProps } from 'antd';
 import { AiFillBank, AiOutlineStock } from 'react-icons/ai';
-import { FaHome } from 'react-icons/fa';
+import { FaHome, FaMoneyBill } from 'react-icons/fa';
+import { GiPayMoney } from 'react-icons/gi';
 
 export type MenuItem = Required<MenuProps>['items'][number];
 
@@ -32,6 +33,16 @@ const Routes: MenuItem[] = [
         key: '/account',
         icon: <AiFillBank />,
       },
+      {
+        label: 'Transactions',
+        key: '/account/transaction',
+        icon: <FaMoneyBill />
+      },
+      {
+        label: 'Add Money',
+        key: '/account/transaction/add',
+        icon: <GiPayMoney />
+      }
     ],
   },
 ];
