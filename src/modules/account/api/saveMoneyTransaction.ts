@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { NextApiResponse } from 'next';
 import { MoneyTransactionRequest } from '../../../interfaces/account';
+import prisma from '../../../lib/prisma';
 
 export default async function saveMoneyTransaction(
   body: MoneyTransactionRequest,
