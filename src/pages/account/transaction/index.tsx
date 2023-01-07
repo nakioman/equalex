@@ -11,15 +11,15 @@ import MoneyTransactionColumns from '../../../modules/account/components/MoneyTr
 
 type MoneyTransactionPageProps = InferGetStaticPropsType<typeof getServerSideProps>;
 
-export default function MoneyTransactionPage({ transactions }: MoneyTransactionPageProps) {
+export default function MoneyTransactionPage({ transactions, selectedAccountId }: MoneyTransactionPageProps) {
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
 
-    const columns = MoneyTransactionColumns(() => {
+    const columns = MoneyTransactionColumns(transactions, () => {
         setLoading(true);
         router.replace('/account/transaction');
         if (router.isReady) setLoading(false);
-    });
+    }, selectedAccountId);
 
     return (
         <EqualexTable
@@ -38,12 +38,14 @@ MoneyTransactionPage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+    const { accountId } = ctx.query;
     const token = await getToken(ctx);
     const userId = token?.sub as string;
     const transactions = token ? await getMoneyTransactions(userId) : [];
     return {
         props: {
             transactions,
+            selectedAccountId: accountId as string | undefined
         },
     };
 };
