@@ -57,11 +57,11 @@ export default function AddMoneyPage({ accounts }: AddMoneyPageProps) {
                             parser={(value) => value!.replace(/\$\s?|(,*)/g, '')} style={{ width: 150 }} />
                     </Form.Item>
                     <Form.Item
-                        label="Date"
+                        label="Date (YYYY-MM-DD)"
                         name="createdAt"
                         rules={[{ required: true, message: 'Please input date for the transaction' }]}
                     >
-                        <DatePicker format="MMM D, YYYY" style={{ width: 150 }} />
+                        <DatePicker format={["MMM D, YYYY", "YYYY-MM-DD"]} style={{ width: 150 }} />
                     </Form.Item>
                     <Form.Item name="accountId" label="Acocunt type" rules={[{ required: true, message: 'Please choose an account' }]}>
                         <Select>
