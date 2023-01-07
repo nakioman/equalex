@@ -1,5 +1,6 @@
 import { Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
+import { ColumnFilterItem } from 'antd/lib/table/interface';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { MoneyTransactionResponse } from '../../../interfaces/account';
@@ -9,12 +10,22 @@ import MoneyTransactionRowActions from './MoneyTransactionRowActions';
 dayjs.extend(utc);
 const { Text } = Typography;
 
-const columns = (refresh: () => void): ColumnsType<MoneyTransactionResponse> => [
+const filterbyAccounts = (arr: MoneyTransactionResponse[]) => arr.reduce((acc: ColumnFilterItem[], current) => {
+    const x = acc.find(item => item.value === current.accountId);
+    if (!x) return acc.concat([{ text: current.accountName, value: current.accountId }]);
+    return acc;
+}, []);
+
+const columns = (transactions: MoneyTransactionResponse[], refresh: () => void, defaultFilteredValue: string | undefined): ColumnsType<MoneyTransactionResponse> => [
     {
         title: 'Account',
         dataIndex: nameof<MoneyTransactionResponse>('accountName'),
         sorter: (a, b) => a.accountName.localeCompare(b.accountName),
         defaultSortOrder: 'ascend',
+        filters: filterbyAccounts(transactions),
+        filterSearch: true,
+        onFilter: (value, record) => record.accountId === value,
+        defaultFilteredValue: defaultFilteredValue ? [defaultFilteredValue] : undefined
     },
     {
         title: 'Description',
