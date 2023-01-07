@@ -32,6 +32,11 @@ const Routes: MenuItem[] = [
         key: '/account',
         icon: <AiFillBank />,
       },
+      {
+        label: 'Add Money',
+        key: '/account/transaction/add',
+        icon: <GiPayMoney />
+      }
     ],
   },
 ];
