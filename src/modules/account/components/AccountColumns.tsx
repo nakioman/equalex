@@ -1,7 +1,7 @@
 import { Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { AccountResponse } from '../../../interfaces/account';
-import { nameof } from '../../../lib/utils';
+import { moneyFormatter, nameof } from '../../../lib/utils';
 import AccountRowActions from './AccountRowActions';
 
 const { Text } = Typography;
@@ -17,7 +17,7 @@ const columns = (refresh: () => void): ColumnsType<AccountResponse> => [
     title: 'Cash Available',
     dataIndex: nameof<AccountResponse>('cashAvailable'),
     sorter: (a, b) => (a.cashAvailable && b.cashAvailable ? a.cashAvailable - b.cashAvailable : 0),
-    render: (val) => (val > 0 ? val : '-'),
+    render: value => (<Text type={value > 0 ? 'success' : 'danger'}>{moneyFormatter(value)}</Text>),
     width: 250,
     align: 'right',
   },
@@ -25,7 +25,7 @@ const columns = (refresh: () => void): ColumnsType<AccountResponse> => [
     title: 'Cash Invested',
     dataIndex: nameof<AccountResponse>('cashInvested'),
     sorter: (a, b) => (a.cashInvested && b.cashInvested ? a.cashInvested - b.cashInvested : 0),
-    render: (val) => (val > 0 ? val : '-'),
+    render: value => (<Text type={value > 0 ? 'success' : 'danger'}>{moneyFormatter(value)}</Text>),
     width: 250,
     align: 'right',
   },
@@ -45,11 +45,7 @@ const columns = (refresh: () => void): ColumnsType<AccountResponse> => [
     width: 250,
     dataIndex: nameof<AccountResponse>('dailyChange'),
     sorter: (a, b) => (a.dailyChange && b.dailyChange ? a.dailyChange - b.dailyChange : 0),
-    render: (value) => (
-      <Text type={value > 0 ? 'success' : 'danger'}>
-        {value ? Math.round((value + Number.EPSILON) * 100) / 100 : ''}
-      </Text>
-    ),
+    render: (value) => (<Text type={value > 0 ? 'success' : 'danger'}>{moneyFormatter(value)}</Text>),
   },
   {
     title: 'Action',

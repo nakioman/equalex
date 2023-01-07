@@ -3,7 +3,7 @@ import { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { MoneyTransactionResponse } from '../../../interfaces/account';
-import { nameof } from '../../../lib/utils';
+import { moneyFormatter, nameof } from '../../../lib/utils';
 import MoneyTransactionRowActions from './MoneyTransactionRowActions';
 
 dayjs.extend(utc);
@@ -26,10 +26,7 @@ const columns = (refresh: () => void): ColumnsType<MoneyTransactionResponse> => 
         sorter: (a, b) => a.amount - b.amount,
         width: 200,
         align: 'right',
-        render: (value) => (
-            <Text type={value > 0 ? 'success' : 'danger'}>
-                {value ? Math.round((value + Number.EPSILON) * 100) / 100 : ''}
-            </Text>)
+        render: (value) => (<Text type={value > 0 ? 'success' : 'danger'}>{moneyFormatter(value)}</Text>)
     },
     {
         title: 'Date',
