@@ -28,5 +28,5 @@ export type MoneyTransactionRequest = {
   description?: string;
   accountId: string;
   amount: number;
-  createdAt: Dayjs;
+  createdAt: Dayjs | string;
 };
