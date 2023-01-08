@@ -38,6 +38,7 @@ export enum SecurityChartTimeFrame {
 }
 
 export type SecurityTransactionRequest = {
+  id?: string;
   description?: string;
   accountId: string;
   securityId: string;
@@ -67,4 +68,6 @@ export type SecurityTransactionResponse = {
   gain: number;
   gainPercentage: number;
   moneyAccountName: string;
+  moneyAccountId: string;
+  type: TransactionType;
 };

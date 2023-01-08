@@ -1,5 +1,6 @@
 import { DeleteOutlined, ExclamationCircleFilled, FormOutlined } from '@ant-design/icons';
 import { Button, message, Modal, Space } from 'antd';
+import { useRouter } from 'next/router';
 import { SecurityTransactionResponse } from '../../../interfaces/security';
 
 export type RowActionsProps = {
@@ -10,6 +11,7 @@ export type RowActionsProps = {
 export default function RowActions({ transaction, refresh }: RowActionsProps) {
   const { confirm } = Modal;
   const [messageApi, contextHolder] = message.useMessage();
+  const router = useRouter();
 
   const deleteTransaction = () => {
     confirm({
@@ -29,7 +31,7 @@ export default function RowActions({ transaction, refresh }: RowActionsProps) {
     <>
       {contextHolder}
       <Space>
-        <Button title="Update transaction">
+        <Button title="Update transaction" onClick={() => router.push(`/security/transaction/${transaction.id}`)}>
           <FormOutlined />
         </Button>
         <Button title="Delete transaction" onClick={deleteTransaction}>
