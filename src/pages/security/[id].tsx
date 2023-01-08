@@ -7,9 +7,9 @@ import { ParsedUrlQuery } from "querystring";
 import { ReactElement, useEffect, useState } from "react";
 import { SecurityChartTimeFrame } from "../../interfaces/security";
 import DashboardLayout from "../../layout/dashboard";
-import SecurityChart from "../../modules/security/api/components/SecurityChart";
-import SecurityPrices from "../../modules/security/api/components/SecurityPrices";
 import { getSecurity } from "../../modules/security/api/getSecurity";
+import SecurityChart from "../../modules/security/components/SecurityChart";
+import SecurityPrices from "../../modules/security/components/SecurityPrices";
 import { getSettings } from "../../modules/settings/api/getSettings";
 
 type SecurityByIdPageProps = InferGetStaticPropsType<typeof getServerSideProps> & {

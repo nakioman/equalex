@@ -46,6 +46,7 @@ export async function getAccounts(userId: string): Promise<AccountResponse[]> {
       dailyChange: daliyChange,
       dailyChangePercent:
         daliyChange && actualCashInvested && actualCashInvested > 0 ? daliyChange / actualCashInvested : undefined,
+      type: record.type,
     };
   });
 }

@@ -1,7 +1,8 @@
 import { MenuProps } from 'antd';
-import { AiFillBank, AiOutlineStock } from 'react-icons/ai';
+import { AiFillBank, AiOutlinePlus, AiOutlineStock, AiOutlineWallet } from 'react-icons/ai';
 import { FaHome, FaMoneyBill } from 'react-icons/fa';
 import { GiPayMoney } from 'react-icons/gi';
+import { RiStockLine } from 'react-icons/ri';
 
 export type MenuItem = Required<MenuProps>['items'][number];
 
@@ -20,6 +21,11 @@ const Routes: MenuItem[] = [
         label: 'Watchlist',
         key: '/watchlist',
         icon: <AiOutlineStock />,
+      },
+      {
+        label: 'Add transaction',
+        key: '/security/transaction/add',
+        icon: <AiOutlinePlus />,
       },
     ],
   },

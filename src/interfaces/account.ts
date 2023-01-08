@@ -8,6 +8,7 @@ export type AccountResponse = {
   cashInvested?: number;
   dailyChange?: number;
   dailyChangePercent?: number;
+  type: MoneyAccountType;
 };
 
 export type AccountRequest = {

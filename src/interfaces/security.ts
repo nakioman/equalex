@@ -1,4 +1,5 @@
-import { SearchEngineType, SecuritySectorType, SecurityType } from '@prisma/client';
+import { SearchEngineType, SecuritySectorType, SecurityType, TransactionType } from '@prisma/client';
+import { Dayjs } from 'dayjs';
 
 export type SecuritySearchResponse = {
   type?: SecurityType;
@@ -35,3 +36,15 @@ export enum SecurityChartTimeFrame {
   FiveYear = 'FiveYear',
   Max = 'Max',
 }
+
+export type SecurityTransactionRequest = {
+  description?: string;
+  accountId: string;
+  securityId: string;
+  type: TransactionType;
+  openAt: Dayjs | string;
+  buyPrice: number;
+  quantity: number;
+  closeAt?: Dayjs | string;
+  closePrice?: number;
+};

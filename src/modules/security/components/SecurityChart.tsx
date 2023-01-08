@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import dynamic from 'next/dynamic';
-import { SecurityResponse } from '../../../../interfaces/security';
+import { SecurityResponse } from '../../../interfaces/security';
 
 export type SecurityChartProps = {
     security: SecurityResponse;

@@ -53,8 +53,7 @@ export default function AddMoneyPage({ accounts }: AddMoneyPageProps) {
                         name="amount"
                         rules={[{ required: true, message: 'Please input an amount for the transaction' }]}
                     >
-                        <InputNumber autoFocus formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                            parser={(value) => value!.replace(/\$\s?|(,*)/g, '')} style={{ width: 150 }} />
+                        <InputNumber autoFocus style={{ width: 150 }} />
                     </Form.Item>
                     <Form.Item
                         label="Date (YYYY-MM-DD)"
@@ -63,7 +62,7 @@ export default function AddMoneyPage({ accounts }: AddMoneyPageProps) {
                     >
                         <DatePicker format={["MMM D, YYYY", "YYYY-MM-DD"]} style={{ width: 150 }} />
                     </Form.Item>
-                    <Form.Item name="accountId" label="Acocunt type" rules={[{ required: true, message: 'Please choose an account' }]}>
+                    <Form.Item name="accountId" label="Account" rules={[{ required: true, message: 'Please choose an account' }]}>
                         <Select>
                             {accounts.map(account => <Select.Option key={account.id} value={account.id}>{account.name}</Select.Option>)}
                         </Select>
