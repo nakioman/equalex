@@ -117,7 +117,7 @@ model SecurityTransaction {
   type        TransactionType
   openAt      DateTime
   buyPrice    Decimal?
-  quantity    Int
+  quantity    Decimal
   closeAt     DateTime?
   closePrice  Decimal?
   createdAt   DateTime        @default(now()) @map(name: "created_at")
