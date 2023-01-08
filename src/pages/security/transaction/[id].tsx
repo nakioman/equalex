@@ -25,7 +25,6 @@ export default function AddSecurityTransactionPage({
   const router = useRouter();
 
   useEffect(() => {
-    console.log(initialValues);
     const { openAt, closeAt, ...otherValues } = initialValues;
     transactionForm.setFieldsValue({
       openAt: dayjs(openAt),
@@ -36,7 +35,6 @@ export default function AddSecurityTransactionPage({
 
   const onFinish = async (values: SecurityTransactionRequest) => {
     setIsSaving(true);
-    console.log(values);
 
     const res = await fetch('/api/security/transaction', {
       method: 'POST',

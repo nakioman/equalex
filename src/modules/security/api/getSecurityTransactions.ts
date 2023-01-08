@@ -35,7 +35,6 @@ export async function getSecurityTransactions(userId: string): Promise<SecurityT
 }
 
 function parseTransaction(record: any): SecurityTransactionResponse {
-  console.log(record);
   const totalInvested = record.buyPrice?.mul(record.quantity).toNumber() ?? 0;
   const totalInvestmentClose = record.closeAt ? record.closePrice?.mul(record.quantity).toNumber() : undefined;
   const gain = totalInvestmentClose

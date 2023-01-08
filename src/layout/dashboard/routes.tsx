@@ -1,5 +1,5 @@
 import { MenuProps } from 'antd';
-import { AiFillBank, AiOutlinePlus, AiOutlineStock, AiOutlineWallet } from 'react-icons/ai';
+import { AiFillBank, AiOutlinePlus, AiOutlineStock } from 'react-icons/ai';
 import { FaHome, FaMoneyBill } from 'react-icons/fa';
 import { GiPayMoney } from 'react-icons/gi';
 import { RiStockLine } from 'react-icons/ri';
@@ -24,7 +24,7 @@ const Routes: MenuItem[] = [
       },
       {
         label: 'All transactions',
-        key: '/security/transaction',
+        key: '/security/transaction?status=open',
         icon: <RiStockLine />,
       },
       {
@@ -47,13 +47,13 @@ const Routes: MenuItem[] = [
       {
         label: 'Transactions',
         key: '/account/transaction',
-        icon: <FaMoneyBill />
+        icon: <FaMoneyBill />,
       },
       {
         label: 'Add Money',
         key: '/account/transaction/add',
-        icon: <GiPayMoney />
-      }
+        icon: <GiPayMoney />,
+      },
     ],
   },
 ];
