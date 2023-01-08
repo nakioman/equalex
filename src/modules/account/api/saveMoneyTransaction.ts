@@ -8,7 +8,7 @@ export default async function saveMoneyTransaction(
   userId: string,
   res: NextApiResponse
 ) {
-  const add = prisma.moneyTransaction.create({
+  const add = await prisma.moneyTransaction.create({
     data: {
       userId: userId,
       amount: body.amount,
@@ -22,10 +22,6 @@ export default async function saveMoneyTransaction(
     },
   });
 
-  const updateCash = prisma.$queryRaw`UPDATE "public"."MoneyAccount" SET "cashAvailable"= COALESCE("cashAvailable", 0)+ ${body.amount} WHERE id=${body.accountId}`;
-
-  const t = await prisma.$transaction([add, updateCash]);
-
-  if (t) return res.status(201).end();
+  if (add) return res.status(201).end();
   else return res.status(500).end();
 }
