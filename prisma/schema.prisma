@@ -84,7 +84,6 @@ model MoneyAccount {
   name                String                @unique()
   type                MoneyAccountType
   userId              String
-  cashAvailable       Decimal?
   moneyTransaction    MoneyTransaction[]
   securityTransaction SecurityTransaction[]
   createdAt           DateTime              @default(now()) @map(name: "created_at")
