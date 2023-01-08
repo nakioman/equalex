@@ -48,3 +48,23 @@ export type SecurityTransactionRequest = {
   closeAt?: Dayjs | string;
   closePrice?: number;
 };
+
+export type SecurityTransactionResponse = {
+  id: string;
+  ticker: string;
+  securityName: string;
+  securityId: string;
+  openAt: Date;
+  buyPrice: number;
+  quantity: number;
+  closeAt?: Date;
+  closePrice?: number;
+  description?: string;
+  daysOpen?: number;
+  securityActualValue?: number;
+  totalInvested: number;
+  totalInvestmentClose?: number;
+  gain: number;
+  gainPercentage: number;
+  moneyAccountName: string;
+};

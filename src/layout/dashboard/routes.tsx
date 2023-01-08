@@ -23,6 +23,11 @@ const Routes: MenuItem[] = [
         icon: <AiOutlineStock />,
       },
       {
+        label: 'All transactions',
+        key: '/security/transaction',
+        icon: <RiStockLine />,
+      },
+      {
         label: 'Add transaction',
         key: '/security/transaction/add',
         icon: <AiOutlinePlus />,
