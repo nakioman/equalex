@@ -1,6 +1,6 @@
 import { Col, Row, Typography } from "antd";
 import dayjs from "dayjs";
-import { SecurityResponse } from "../../../../interfaces/security";
+import { SecurityResponse } from "../../../interfaces/security";
 
 export type SecurityPricesProps = {
     security: SecurityResponse;

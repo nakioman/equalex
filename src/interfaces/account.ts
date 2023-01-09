@@ -6,8 +6,8 @@ export type AccountResponse = {
   name: string;
   cashAvailable?: number;
   cashInvested?: number;
-  dailyChange?: number;
-  dailyChangePercent?: number;
+  type: MoneyAccountType;
+  actualInvestedValue?: number;
 };
 
 export type AccountRequest = {

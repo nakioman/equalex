@@ -15,7 +15,6 @@ function Footer() {
   const handleMenuClick: MenuClickEventHandler = ({ key }) => {
     router.push(key);
   };
-
   return (
     <Sider
       theme="light"
@@ -30,7 +29,7 @@ function Footer() {
         {collapsed && <Image src={logoIconImage} alt="Equalex" height={42} style={{ margin: 4 }} />}
       </div>
       <Menu
-        selectedKeys={[router.route]}
+        selectedKeys={[router.asPath]}
         mode="inline"
         items={Routes}
         onClick={handleMenuClick}

@@ -1,10 +1,10 @@
 import { NextApiResponse } from 'next';
 import prisma from '../../../lib/prisma';
 
-export default async function deleteMoneyTransaction(id: string | undefined, userId: string, res: NextApiResponse) {
+export default async function deleteSecurityTransaction(id: string | undefined, userId: string, res: NextApiResponse) {
   if (!id) return res.status(400).end();
 
-  const deleteTransaction = await prisma.moneyTransaction.deleteMany({
+  const deleteTransaction = await prisma.securityTransaction.deleteMany({
     where: {
       AND: [{ id: id }, { userId: userId }],
     },

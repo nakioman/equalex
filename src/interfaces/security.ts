@@ -1,4 +1,5 @@
-import { SearchEngineType, SecuritySectorType, SecurityType } from '@prisma/client';
+import { SearchEngineType, SecuritySectorType, SecurityType, TransactionType } from '@prisma/client';
+import { Dayjs } from 'dayjs';
 
 export type SecuritySearchResponse = {
   type?: SecurityType;
@@ -35,3 +36,38 @@ export enum SecurityChartTimeFrame {
   FiveYear = 'FiveYear',
   Max = 'Max',
 }
+
+export type SecurityTransactionRequest = {
+  id?: string;
+  description?: string;
+  accountId: string;
+  securityId: string;
+  type: TransactionType;
+  openAt: Dayjs | string;
+  buyPrice: number;
+  quantity: number;
+  closeAt?: Dayjs | string;
+  closePrice?: number;
+};
+
+export type SecurityTransactionResponse = {
+  id: string;
+  ticker: string;
+  securityName: string;
+  securityId: string;
+  openAt: Date;
+  buyPrice: number;
+  quantity: number;
+  closeAt?: Date;
+  closePrice?: number;
+  description?: string;
+  daysOpen?: number;
+  securityActualValue?: number;
+  totalInvested: number;
+  totalInvestmentClose?: number;
+  gain: number;
+  gainPercentage: number;
+  moneyAccountName: string;
+  moneyAccountId: string;
+  type: TransactionType;
+};
