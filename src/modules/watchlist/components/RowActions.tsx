@@ -45,10 +45,10 @@ export default function RowActions({ watchlist, refresh }: RowActionsProps) {
     <>
       {contextHolder}
       <Space>
-        <Button title="Update security" onClick={updateSecurity} disabled={updating}>
+        <Button size="small" title="Update security" onClick={updateSecurity} disabled={updating}>
           <SyncOutlined spin={updating} />
         </Button>
-        <Button title="Delete security" onClick={deleteSecurity}>
+        <Button size="small" title="Delete security" onClick={deleteSecurity}>
           <DeleteOutlined />
         </Button>
       </Space>

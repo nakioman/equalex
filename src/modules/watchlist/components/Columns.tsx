@@ -16,20 +16,25 @@ const columns = (refresh: () => void): ColumnsType<WatchlistResponse> => [
     title: 'Ticker',
     align: 'center',
     dataIndex: nameof<WatchlistResponse>('ticker'),
-    width: 150,
+    width: 100,
     sorter: (a, b) => a.ticker.localeCompare(b.ticker),
-    render: (value, record) => <Link href={`/security/${record.securityId}`} className="ant-typograph">{value}</Link>,
+    render: (value, record) => (
+      <Link href={`/security/${record.securityId}`} className="ant-typograph">
+        {value}
+      </Link>
+    ),
     defaultSortOrder: 'ascend',
   },
   {
     title: 'Name',
     dataIndex: nameof<WatchlistResponse>('name'),
     sorter: (a, b) => a.name.localeCompare(b.name),
+    width: 500,
   },
   {
     title: 'Latest',
     align: 'right',
-    width: 200,
+    width: 150,
     dataIndex: nameof<WatchlistResponse>('lastPrice'),
     sorter: (a, b) => (a.lastPrice && b.lastPrice ? a.lastPrice - b.lastPrice : 0),
     render: (value) => (value ? Math.round((value + Number.EPSILON) * 100) / 100 : ''),
@@ -37,16 +42,18 @@ const columns = (refresh: () => void): ColumnsType<WatchlistResponse> => [
   {
     title: 'Δ %',
     align: 'right',
-    width: 200,
+    width: 150,
     dataIndex: nameof<WatchlistResponse>('dailyChangePercentage'),
     sorter: (a, b) =>
       a.dailyChangePercentage && b.dailyChangePercentage ? a.dailyChangePercentage - b.dailyChangePercentage : 0,
-    render: (value) => <Text type={value > 0 ? 'success' : 'danger'}>{value ? (value * 100).toPrecision(2) + '%' : ''}</Text>,
+    render: (value) => (
+      <Text type={value > 0 ? 'success' : 'danger'}>{value ? (value * 100).toPrecision(2) + '%' : ''}</Text>
+    ),
   },
   {
     title: 'Δ amount',
     align: 'right',
-    width: 200,
+    width: 150,
     dataIndex: nameof<WatchlistResponse>('dailyChange'),
     sorter: (a, b) => (a.dailyChange && b.dailyChange ? a.dailyChange - b.dailyChange : 0),
     render: (value) => (
@@ -63,7 +70,7 @@ const columns = (refresh: () => void): ColumnsType<WatchlistResponse> => [
   },
   {
     title: 'Updated',
-    width: 200,
+    width: 150,
     dataIndex: nameof<WatchlistResponse>('updatedAt'),
     render: (value) => dayjs(value).format('MMM D, YYYY HH:mm'),
   },
