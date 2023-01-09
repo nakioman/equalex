@@ -52,7 +52,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 };
 
 function accountSummary(pageData: readonly AccountResponse[]): ReactNode {
-  const totalCashAvailable = pageData.map((s) => s.cashAvailable).reduce((partialSum: number, a) => partialSum + a, 0);
+  const totalCashAvailable = pageData
+    .map((s) => s.cashAvailable)
+    .reduce((partialSum: number, a) => partialSum + (a ?? 0), 0);
   const totalInvested = pageData.map((s) => s.cashInvested).reduce((partialSum: number, a) => partialSum + (a ?? 0), 0);
   const totalActualValue = pageData
     .map((s) => s.actualInvestedValue)
