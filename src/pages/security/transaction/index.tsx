@@ -1,12 +1,12 @@
-import { Col, Radio, Row } from 'antd';
+import { Col, Radio, Row, Table, Typography } from 'antd';
 import { GetServerSidePropsContext, InferGetStaticPropsType } from 'next';
 import { getToken } from 'next-auth/jwt';
 import { useRouter } from 'next/router';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import EqualexTable from '../../../common/components/EqualexTable';
 import { SecurityTransactionResponse } from '../../../interfaces/security';
 import DashboardLayout from '../../../layout/dashboard';
-import { nameof } from '../../../lib/utils';
+import { moneyFormatter, nameof } from '../../../lib/utils';
 import { getSecurityTransactions } from '../../../modules/security/api/getSecurityTransactions';
 import SecurityTransactionColumns from '../../../modules/security/components/SecurityTransactionColumns';
 
@@ -31,7 +31,6 @@ export default function SecurityTransactionPage({ transactions }: SecurityTransa
     setLoading(true);
     router.push(`/security/transaction?status=${value}`);
   };
-
   return (
     <EqualexTable
       addLink="/security/transaction/add"
@@ -50,6 +49,7 @@ export default function SecurityTransactionPage({ transactions }: SecurityTransa
           </>
         ),
       }}
+      summary={transactionsSummary}
     >
       <Row justify="start">
         <Col span={24} style={{ paddingBottom: 20 }}>
@@ -91,3 +91,45 @@ const transactionsByStatus = (transactions: SecurityTransactionResponse[], statu
       return transactions;
   }
 };
+
+function transactionsSummary(pageData: readonly SecurityTransactionResponse[]): ReactNode {
+  const totalInvestedOpen = pageData
+    .filter((s) => !s.closeAt)
+    .map((s) => s.totalInvested)
+    .reduce((partialSum, a) => partialSum + a, 0);
+  const totalInvestedClose = pageData
+    .filter((s) => s.closeAt)
+    .map((s) => s.totalInvested)
+    .reduce((partialSum, a) => partialSum + a, 0);
+  const totalAtClose = pageData
+    .map((s) => s.totalInvestmentClose)
+    .reduce((partialSum: number, a) => partialSum + (a ?? 0), 0);
+  const amountDiff = totalAtClose ? totalAtClose - totalInvestedClose : undefined;
+  const amountPercentage = amountDiff ? amountDiff / totalInvestedClose : undefined;
+  const { Text } = Typography;
+  return (
+    <Table.Summary.Row>
+      <Table.Summary.Cell colSpan={9} index={0}>
+        <Text strong>Summary</Text>
+      </Table.Summary.Cell>
+      <Table.Summary.Cell index={1} align="right">
+        <Text strong>{moneyFormatter(totalInvestedOpen + totalInvestedClose)}</Text>
+      </Table.Summary.Cell>
+      <Table.Summary.Cell index={2} align="right">
+        <Text strong type={totalAtClose > totalInvestedClose ? 'success' : 'danger'}>
+          {moneyFormatter(totalAtClose)}
+        </Text>
+      </Table.Summary.Cell>
+      <Table.Summary.Cell index={3} align="right">
+        <Text strong type={amountDiff && amountDiff > 0 ? 'success' : 'danger'}>
+          {moneyFormatter(amountDiff)}
+        </Text>
+      </Table.Summary.Cell>
+      <Table.Summary.Cell index={4} align="right">
+        <Text strong type={amountPercentage && amountPercentage > 0 ? 'success' : 'danger'}>
+          {amountPercentage ? (amountPercentage * 100).toPrecision(2) + '%' : ''}
+        </Text>
+      </Table.Summary.Cell>
+    </Table.Summary.Row>
+  );
+}

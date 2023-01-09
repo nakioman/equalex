@@ -16,6 +16,7 @@ export type EqualexTableComponentProps = {
   size?: SizeType;
   expandable?: ExpandableConfig<any>;
   children?: ReactNode;
+  summary?: ((data: readonly any[]) => ReactNode) | undefined;
 };
 
 export default function EqualexTableComponent({
@@ -28,6 +29,7 @@ export default function EqualexTableComponent({
   size,
   expandable,
   children,
+  summary,
 }: EqualexTableComponentProps) {
   const windowSize = useWindowSize();
   const router = useRouter();
@@ -51,6 +53,7 @@ export default function EqualexTableComponent({
         loading={loading}
         scroll={{ y: windowSize.height ? windowSize.height * 0.75 : undefined, x: undefined }}
         sticky
+        summary={summary}
       />
     </Card>
   );
