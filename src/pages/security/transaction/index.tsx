@@ -20,7 +20,7 @@ export default function SecurityTransactionPage({ transactions, accounts }: Secu
   const { status, accountId } = router.query;
   const columns = SecurityTransactionColumns(transactions, () => {
     setLoading(true);
-    router.replace('/security/transaction');
+    router.replace(router.asPath);
     if (router.isReady) setLoading(false);
   });
 

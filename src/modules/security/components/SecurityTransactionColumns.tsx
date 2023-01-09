@@ -58,7 +58,7 @@ const columns = (
   {
     title: 'Quantity',
     align: 'right',
-    width: 100,
+    width: 75,
     dataIndex: nameof<SecurityTransactionResponse>('quantity'),
     sorter: (a, b) => a.quantity - b.quantity,
   },
@@ -132,7 +132,7 @@ const columns = (
     title: 'Action',
     key: 'actions',
     align: 'center',
-    width: 100,
+    width: 125,
     render: (_, record) => <SecurityTransactionRowActions transaction={record} refresh={refresh} />,
   },
 ];
