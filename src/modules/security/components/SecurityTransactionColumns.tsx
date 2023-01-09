@@ -16,7 +16,7 @@ const columns = (refresh: () => void): ColumnsType<SecurityTransactionResponse> 
     title: 'Ticker',
     align: 'center',
     dataIndex: nameof<SecurityTransactionResponse>('ticker'),
-    width: 100,
+    width: 75,
     sorter: (a, b) => a.ticker.localeCompare(b.ticker),
     render: (value, record) => (
       <Link href={`/security/${record.securityId}`} className="ant-typograph">
@@ -28,7 +28,7 @@ const columns = (refresh: () => void): ColumnsType<SecurityTransactionResponse> 
   },
   {
     title: 'Open Date',
-    width: 150,
+    width: 125,
     dataIndex: nameof<SecurityTransactionResponse>('openAt'),
     render: (value) => dayjs(value).utc().format('MMM D, YYYY'),
     sorter: (a, b) => a.openAt.getTime() - b.openAt.getTime(),
@@ -36,7 +36,7 @@ const columns = (refresh: () => void): ColumnsType<SecurityTransactionResponse> 
   {
     title: 'Buy Price',
     align: 'right',
-    width: 150,
+    width: 125,
     dataIndex: nameof<SecurityTransactionResponse>('buyPrice'),
     sorter: (a, b) => a.buyPrice - b.buyPrice,
     render: (value) => (value ? Math.round((value + Number.EPSILON) * 100) / 100 : ''),
@@ -50,7 +50,7 @@ const columns = (refresh: () => void): ColumnsType<SecurityTransactionResponse> 
   },
   {
     title: 'Close Date',
-    width: 150,
+    width: 125,
     dataIndex: nameof<SecurityTransactionResponse>('closeAt'),
     render: (value) => (value ? dayjs(value).utc().format('MMM D, YYYY') : '-'),
     sorter: (a, b) => (a.closeAt && b.closeAt ? a.closeAt.getTime() - b.closeAt.getTime() : 0),
@@ -58,7 +58,7 @@ const columns = (refresh: () => void): ColumnsType<SecurityTransactionResponse> 
   {
     title: 'Close Price',
     align: 'right',
-    width: 150,
+    width: 125,
     dataIndex: nameof<SecurityTransactionResponse>('closePrice'),
     sorter: (a, b) => a.buyPrice - b.buyPrice,
     render: (value, record) => (
@@ -70,28 +70,28 @@ const columns = (refresh: () => void): ColumnsType<SecurityTransactionResponse> 
   {
     title: 'Days Open',
     align: 'right',
-    width: 150,
+    width: 125,
     dataIndex: nameof<SecurityTransactionResponse>('daysOpen'),
     sorter: (a, b) => (a.daysOpen && b.daysOpen ? a.daysOpen - b.daysOpen : 0),
   },
   {
     title: 'Actual Price',
     align: 'right',
-    width: 150,
+    width: 125,
     dataIndex: nameof<SecurityTransactionResponse>('securityActualValue'),
     render: (value) => (value ? Math.round((value + Number.EPSILON) * 100) / 100 : '-'),
   },
   {
     title: 'Total Invested',
     align: 'right',
-    width: 150,
+    width: 125,
     dataIndex: nameof<SecurityTransactionResponse>('totalInvested'),
     render: moneyFormatter,
   },
   {
     title: 'Total At Close',
     align: 'right',
-    width: 150,
+    width: 125,
     dataIndex: nameof<SecurityTransactionResponse>('totalInvestmentClose'),
     render: (value, record) => (
       <Text type={value > record.totalInvested ? 'success' : 'danger'}>{moneyFormatter(value)}</Text>
@@ -100,14 +100,14 @@ const columns = (refresh: () => void): ColumnsType<SecurityTransactionResponse> 
   {
     title: 'Δ amount',
     align: 'right',
-    width: 150,
+    width: 100,
     dataIndex: nameof<SecurityTransactionResponse>('gain'),
     render: (value) => <Text type={value > 0 ? 'success' : 'danger'}>{moneyFormatter(value)}</Text>,
   },
   {
     title: 'Δ %',
     align: 'right',
-    width: 200,
+    width: 100,
     dataIndex: nameof<SecurityTransactionResponse>('gainPercentage'),
     sorter: (a, b) => (a.gainPercentage && b.gainPercentage ? a.gainPercentage - b.gainPercentage : 0),
     render: (value) => (

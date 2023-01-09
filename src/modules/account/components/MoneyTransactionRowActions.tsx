@@ -15,7 +15,7 @@ export default function MoneyTransactionRowActions({ transaction, refresh }: Mon
     confirm({
       title: 'Delete money transaction',
       icon: <ExclamationCircleFilled />,
-      content: "Are you sure to delete this money transaction?",
+      content: 'Are you sure to delete this money transaction?',
       async onOk() {
         const res = await fetch(`/api/account/transaction/${transaction.id}`, { method: 'DELETE' });
         if (res.ok) {
@@ -28,7 +28,7 @@ export default function MoneyTransactionRowActions({ transaction, refresh }: Mon
     <>
       {contextHolder}
       <Space>
-        <Button title="Delete account" onClick={deleteMoney}>
+        <Button size="small" title="Delete account" onClick={deleteMoney}>
           <DeleteOutlined />
         </Button>
       </Space>

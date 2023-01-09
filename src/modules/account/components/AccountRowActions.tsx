@@ -1,8 +1,6 @@
 import { DeleteOutlined, ExclamationCircleFilled } from '@ant-design/icons';
-import { MoneyAccountType } from '@prisma/client';
 import { Button, message, Modal, Space } from 'antd';
 import { useRouter } from 'next/dist/client/router';
-import { AiOutlinePlus } from 'react-icons/ai';
 import { FaMoneyBill } from 'react-icons/fa';
 import { GiPayMoney } from 'react-icons/gi';
 import { AccountResponse } from '../../../interfaces/account';
@@ -34,16 +32,21 @@ export default function AccountRowActions({ account, refresh }: AccountRowAction
     <>
       {contextHolder}
       <Space>
-        <Button disabled={account.type !== MoneyAccountType.INVESTMENT} title="Add transaction" onClick={() => router.push(`/security/transaction/add?accountId=${account.id}`)}>
-          <AiOutlinePlus />
-        </Button>
-        <Button title="Transactions" onClick={() => router.push(`/account/transaction?accountId=${account.id}`)}>
+        <Button
+          size="small"
+          title="Transactions"
+          onClick={() => router.push(`/account/transaction?accountId=${account.id}`)}
+        >
           <FaMoneyBill />
         </Button>
-        <Button title="Add transaction" onClick={() => router.push(`/account/transaction/add?accountId=${account.id}`)}>
+        <Button
+          size="small"
+          title="Add transaction"
+          onClick={() => router.push(`/account/transaction/add?accountId=${account.id}`)}
+        >
           <GiPayMoney />
         </Button>
-        <Button title="Delete account" onClick={deleteAccount}>
+        <Button size="small" title="Delete account" onClick={deleteAccount}>
           <DeleteOutlined />
         </Button>
       </Space>

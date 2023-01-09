@@ -31,10 +31,14 @@ export default function RowActions({ transaction, refresh }: RowActionsProps) {
     <>
       {contextHolder}
       <Space>
-        <Button title="Update transaction" onClick={() => router.push(`/security/transaction/${transaction.id}`)}>
+        <Button
+          size="small"
+          title="Update transaction"
+          onClick={() => router.push(`/security/transaction/${transaction.id}`)}
+        >
           <FormOutlined />
         </Button>
-        <Button title="Delete transaction" onClick={deleteTransaction}>
+        <Button size="small" title="Delete transaction" onClick={deleteTransaction}>
           <DeleteOutlined />
         </Button>
       </Space>

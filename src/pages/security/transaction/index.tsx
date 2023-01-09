@@ -1,9 +1,9 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Card, Col, Radio, Row, Table } from 'antd';
+import { Col, Radio, Row } from 'antd';
 import { GetServerSidePropsContext, InferGetStaticPropsType } from 'next';
 import { getToken } from 'next-auth/jwt';
 import { useRouter } from 'next/router';
 import { ReactElement, useEffect, useState } from 'react';
+import EqualexTable from '../../../common/components/EqualexTable';
 import { SecurityTransactionResponse } from '../../../interfaces/security';
 import DashboardLayout from '../../../layout/dashboard';
 import { nameof } from '../../../lib/utils';
@@ -33,13 +33,23 @@ export default function SecurityTransactionPage({ transactions }: SecurityTransa
   };
 
   return (
-    <Card
+    <EqualexTable
+      addLink="/security/transaction/add"
       title="Securities transactions"
-      extra={
-        <Button icon={<PlusOutlined />} onClick={() => router.push('/security/transaction/add')}>
-          Add
-        </Button>
-      }
+      size="small"
+      columns={columns}
+      dataSource={transactions}
+      rowKey={nameof<SecurityTransactionResponse>('id')}
+      loading={loading}
+      expandable={{
+        expandedRowRender: (record) => (
+          <>
+            <p style={{ margin: 0 }}>Name: {record.securityName}</p>
+            <p style={{ margin: 0 }}>Account: {record.moneyAccountName}</p>
+            {record.description && <p style={{ margin: 0 }}>Description: {record.description}</p>}
+          </>
+        ),
+      }}
     >
       <Row justify="start">
         <Col span={24} style={{ paddingBottom: 20 }}>
@@ -50,28 +60,7 @@ export default function SecurityTransactionPage({ transactions }: SecurityTransa
           </Radio.Group>
         </Col>
       </Row>
-      <Row>
-        <Col span={24}>
-          {/* <SecurityPrices security={security} /> */}
-          <Table
-            size="small"
-            columns={columns}
-            dataSource={transactions}
-            rowKey={nameof<SecurityTransactionResponse>('id')}
-            loading={loading}
-            expandable={{
-              expandedRowRender: (record) => (
-                <>
-                  <p style={{ margin: 0 }}>Name: {record.securityName}</p>
-                  <p style={{ margin: 0 }}>Account: {record.moneyAccountName}</p>
-                  {record.description && <p style={{ margin: 0 }}>Description: {record.description}</p>}
-                </>
-              ),
-            }}
-          />
-        </Col>
-      </Row>
-    </Card>
+    </EqualexTable>
   );
 }
 
