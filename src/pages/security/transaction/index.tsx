@@ -1,4 +1,5 @@
-import { Col, Radio, Row, Table, Typography } from 'antd';
+import { MoneyAccountType } from '@prisma/client';
+import { Col, Radio, Row, Select, Table, Typography } from 'antd';
 import { GetServerSidePropsContext, InferGetStaticPropsType } from 'next';
 import { getToken } from 'next-auth/jwt';
 import { useRouter } from 'next/router';
@@ -7,17 +8,17 @@ import EqualexTable from '../../../common/components/EqualexTable';
 import { SecurityTransactionResponse } from '../../../interfaces/security';
 import DashboardLayout from '../../../layout/dashboard';
 import { moneyFormatter, nameof } from '../../../lib/utils';
+import { getAccounts } from '../../../modules/account/api/getAccounts';
 import { getSecurityTransactions } from '../../../modules/security/api/getSecurityTransactions';
 import SecurityTransactionColumns from '../../../modules/security/components/SecurityTransactionColumns';
 
 type SecurityTransactionPageProps = InferGetStaticPropsType<typeof getServerSideProps>;
 
-export default function SecurityTransactionPage({ transactions }: SecurityTransactionPageProps) {
+export default function SecurityTransactionPage({ transactions, accounts }: SecurityTransactionPageProps) {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
-  const { status } = router.query;
-
-  const columns = SecurityTransactionColumns(() => {
+  const { status, accountId } = router.query;
+  const columns = SecurityTransactionColumns(transactions, () => {
     setLoading(true);
     router.replace('/security/transaction');
     if (router.isReady) setLoading(false);
@@ -29,8 +30,18 @@ export default function SecurityTransactionPage({ transactions }: SecurityTransa
 
   const updateTimeFrame = (value: boolean) => {
     setLoading(true);
-    router.push(`/security/transaction?status=${value}`);
+    const accounts =
+      typeof accountId === 'string'
+        ? `&accountId=${accountId}`
+        : accountId?.map((v: string) => `&accountId=${v}`).join('');
+    router.push(`/security/transaction?status=${value}${accounts}`);
   };
+
+  const handleAccountChange = (values: string[]) => {
+    setLoading(true);
+    router.push(`/security/transaction?status=${status}${values.map((v) => `&accountId=${v}`).join('')}`);
+  };
+
   return (
     <EqualexTable
       addLink="/security/transaction/add"
@@ -51,13 +62,27 @@ export default function SecurityTransactionPage({ transactions }: SecurityTransa
       }}
       summary={transactionsSummary}
     >
-      <Row justify="start">
-        <Col span={24} style={{ paddingBottom: 20 }}>
+      <Row justify="start" style={{ paddingBottom: 20 }} align="middle">
+        <Col span={2}>
           <Radio.Group size="small" value={status ?? ''} onChange={(e) => updateTimeFrame(e.target.value)}>
             <Radio.Button value="open">Open</Radio.Button>
             <Radio.Button value="close">Close</Radio.Button>
             <Radio.Button value="">All</Radio.Button>
           </Radio.Group>
+        </Col>
+        <Col span={12}>
+          <Select
+            mode="multiple"
+            allowClear
+            style={{ width: '100%' }}
+            placeholder="Filter by account"
+            options={accounts.map((a) => ({
+              label: a.name,
+              value: a.id,
+            }))}
+            onChange={handleAccountChange}
+            defaultValue={(accountId as string[] | undefined) ?? []}
+          />
         </Col>
       </Row>
     </EqualexTable>
@@ -70,15 +95,28 @@ SecurityTransactionPage.getLayout = function getLayout(page: ReactElement) {
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const token = await getToken(ctx);
-  const { status } = ctx.query;
+  const { status, accountId } = ctx.query;
   const userId = token?.sub as string;
   const transactions = token ? await getSecurityTransactions(userId) : [];
-  const filteredTransaction = transactionsByStatus(transactions, status);
+  const filteredTransaction = transactionByAccounId(transactionsByStatus(transactions, status), accountId);
+  const accounts = token ? await (await getAccounts(userId)).filter((a) => a.type == MoneyAccountType.INVESTMENT) : [];
   return {
     props: {
       transactions: filteredTransaction,
+      accounts,
     },
   };
+};
+
+const transactionByAccounId = (
+  transaction: SecurityTransactionResponse[],
+  accountId: string | string[] | undefined
+) => {
+  const accounts = typeof accountId === 'string' ? [accountId] : accountId;
+
+  if (!accounts) return transaction;
+
+  return transaction.filter((t) => accounts.includes(t.moneyAccountId));
 };
 
 const transactionsByStatus = (transactions: SecurityTransactionResponse[], status: string | string[] | undefined) => {

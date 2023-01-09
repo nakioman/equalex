@@ -1,5 +1,6 @@
 import { Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
+import { ColumnFilterItem } from 'antd/es/table/interface';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import Link from 'next/link';
@@ -11,12 +12,22 @@ dayjs.extend(utc);
 
 const { Text } = Typography;
 
-const columns = (refresh: () => void): ColumnsType<SecurityTransactionResponse> => [
+const filterbyTicker = (arr: SecurityTransactionResponse[]) =>
+  arr.reduce((acc: ColumnFilterItem[], current) => {
+    const x = acc.find((item) => item.value === current.ticker);
+    if (!x) return acc.concat([{ text: current.ticker, value: current.ticker }]);
+    return acc;
+  }, []);
+
+const columns = (
+  transactions: SecurityTransactionResponse[],
+  refresh: () => void
+): ColumnsType<SecurityTransactionResponse> => [
   {
     title: 'Ticker',
     align: 'center',
     dataIndex: nameof<SecurityTransactionResponse>('ticker'),
-    width: 75,
+    width: 100,
     sorter: (a, b) => a.ticker.localeCompare(b.ticker),
     render: (value, record) => (
       <Link href={`/security/${record.securityId}`} className="ant-typograph">
@@ -25,6 +36,9 @@ const columns = (refresh: () => void): ColumnsType<SecurityTransactionResponse> 
     ),
     defaultSortOrder: 'ascend',
     fixed: 'left',
+    filters: filterbyTicker(transactions),
+    filterSearch: true,
+    onFilter: (value, record) => record.ticker === value,
   },
   {
     title: 'Open Date',
