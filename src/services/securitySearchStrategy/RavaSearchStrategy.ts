@@ -105,5 +105,7 @@ export default class RavaSearchStrategy implements ISecuritySearchStrategy {
     const access_token = $('#buscador-wrapper').attr('access_token');
 
     RavaSearchStrategy.accessToken = access_token;
+
+    await browser.close();
   }
 }
