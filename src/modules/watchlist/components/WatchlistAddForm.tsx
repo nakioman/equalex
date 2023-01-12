@@ -69,6 +69,7 @@ export default function WatchlistAddForm({ security }: WatchlistAddFormProps) {
               <Select style={{ width: 100 }}>
                 <Select.Option value={SecurityType.BOND}>Bond</Select.Option>
                 <Select.Option value={SecurityType.EQUITY}>Equity</Select.Option>
+                <Select.Option value={SecurityType.ETF}>ETF</Select.Option>
               </Select>
             </Form.Item>
             <Form.Item
