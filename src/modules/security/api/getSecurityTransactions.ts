@@ -18,11 +18,17 @@ export async function getSecurityTransaction(id: string): Promise<SecurityTransa
   return parseTransaction(transaction);
 }
 
-export async function getSecurityTransactions(userId: string): Promise<SecurityTransactionResponse[]> {
+export async function getSecurityTransactions(
+  userId: string,
+  securityId?: string
+): Promise<SecurityTransactionResponse[]> {
+  const where = securityId
+    ? {
+        AND: [{ securityId }, { userId }],
+      }
+    : { userId };
   const transactions = await prisma.securityTransaction.findMany({
-    where: {
-      userId,
-    },
+    where,
     include: {
       security: true,
       account: true,
