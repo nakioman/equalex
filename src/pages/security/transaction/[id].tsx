@@ -135,7 +135,7 @@ AddSecurityTransactionPage.getLayout = function getLayout(page: ReactElement) {
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { id } = ctx.params as ParsedUrlQuery;
-  const { accountId } = ctx.query;
+  const { accountId, securityId } = ctx.query;
   const token = await getToken(ctx);
   const userId = token?.sub as string;
   const accounts = token ? await (await getAccounts(userId)).filter((a) => a.type === MoneyAccountType.INVESTMENT) : [];
@@ -166,7 +166,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         openAt: Date.now(),
         accountId: accountId as string,
         type: TransactionType.LONG,
-        securityId: undefined,
+        securityId: securityId as string,
       };
 
   return {
