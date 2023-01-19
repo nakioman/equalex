@@ -1,5 +1,5 @@
 import { MenuProps } from 'antd';
-import { AiFillBank, AiOutlinePlus, AiOutlineStock } from 'react-icons/ai';
+import { AiFillBank, AiOutlineCalculator, AiOutlinePlus, AiOutlineStock } from 'react-icons/ai';
 import { FaHome, FaMoneyBill } from 'react-icons/fa';
 import { GiPayMoney } from 'react-icons/gi';
 import { RiStockLine } from 'react-icons/ri';
@@ -53,6 +53,18 @@ const Routes: MenuItem[] = [
         label: 'Add Money',
         key: '/account/transaction/add',
         icon: <GiPayMoney />,
+      },
+    ],
+  },
+  {
+    label: 'Utilities',
+    key: 'utilities',
+    type: 'group',
+    children: [
+      {
+        label: 'Risk/Reward',
+        key: '/utilities/risk_reward',
+        icon: <AiOutlineCalculator />,
       },
     ],
   },
