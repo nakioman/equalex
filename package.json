@@ -38,7 +38,7 @@
     "next-superjson-plugin": "^0.5.2",
     "pino": "^8.8.0",
     "pino-pretty": "^9.1.1",
-    "puppeteer": "^19.4.1",
+    "puppeteer": "^19.6.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
