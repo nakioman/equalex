@@ -1,7 +1,7 @@
 import { SearchEngineType, SecurityType } from '@prisma/client';
 import { load as cheerioLoad } from 'cheerio';
 import dayjs from 'dayjs';
-import { launch as puppeteerLaunch } from 'puppeteer';
+import { Browser, launch as puppeteerLaunch } from 'puppeteer';
 import { ISecuritySearchStrategy } from '.';
 import { SecurityPriceData, SecuritySearchResponse } from '../../interfaces/security';
 
@@ -94,18 +94,21 @@ export default class RavaSearchStrategy implements ISecuritySearchStrategy {
   }
 
   private async getAccessToken() {
-    const browser = await puppeteerLaunch({
-      headless: true,
-    });
-    const page = await browser.newPage();
-    await page.goto(RavaSearchStrategy.ravaHomeUrl);
-    const content = await page.content();
+    let browser: Browser | null = null;
+    try {
+      browser = await puppeteerLaunch({
+        headless: true,
+      });
+      const page = await browser.newPage();
+      await page.goto(RavaSearchStrategy.ravaHomeUrl);
+      const content = await page.content();
 
-    const $ = cheerioLoad(content);
-    const access_token = $('#buscador-wrapper').attr('access_token');
+      const $ = cheerioLoad(content);
+      const access_token = $('#buscador-wrapper').attr('access_token');
 
-    RavaSearchStrategy.accessToken = access_token;
-
-    await browser.close();
+      RavaSearchStrategy.accessToken = access_token;
+    } finally {
+      await browser?.close();
+    }
   }
 }
