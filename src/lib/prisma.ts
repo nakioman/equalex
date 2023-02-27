@@ -1,6 +1,6 @@
 // lib/prisma.ts
 import { PrismaClient } from '@prisma/client';
-import { PrismaClientOptions } from '@prisma/client/runtime';
+import { PrismaClientOptions } from '@prisma/client/runtime/binary';
 import { getLogger } from './logging';
 
 class CustomPrismaClient extends PrismaClient<PrismaClientOptions, 'query'> {}

@@ -1,4 +1,4 @@
-import { Prisma, PrismaPromise } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { NextApiResponse } from 'next';
 import { SecurityPriceData } from '../../../interfaces/security';
 import { getLogger } from '../../../lib/logging';
@@ -75,7 +75,7 @@ function updateSecurityPrices(
   securityId: string,
   prices: SecurityPriceData[],
   previousPrice: number
-): PrismaPromise<any> {
+): Prisma.PrismaPromise<any> {
   return prisma.security.update({
     where: { id: securityId },
     data: {
@@ -86,7 +86,7 @@ function updateSecurityPrices(
   });
 }
 
-function addNewPrices(prices: SecurityPriceData[], securityId: string): PrismaPromise<any> {
+function addNewPrices(prices: SecurityPriceData[], securityId: string): Prisma.PrismaPromise<any> {
   return prisma.priceData.createMany({
     data: prices.map(
       (price) =>
@@ -103,7 +103,7 @@ function addNewPrices(prices: SecurityPriceData[], securityId: string): PrismaPr
   });
 }
 
-function deleteOldPrices(prices: SecurityPriceData[], securityId: string): PrismaPromise<any> {
+function deleteOldPrices(prices: SecurityPriceData[], securityId: string): Prisma.PrismaPromise<any> {
   return prisma.priceData.deleteMany({
     where: {
       OR: prices.map(

@@ -1,4 +1,4 @@
-import { Decimal } from '@prisma/client/runtime';
+import { Decimal } from '@prisma/client/runtime/library';
 import { AccountResponse } from '../../../interfaces/account';
 import prisma from '../../../lib/prisma';
 
