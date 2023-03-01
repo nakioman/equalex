@@ -51,6 +51,6 @@
     "@types/lodash": "^4.14.191",
     "cross-env": "^7.0.3",
     "prettier": "^2.8.4",
-    "prisma": "^4.10.1"
+    "prisma": "^4.11.0"
   }
 }
