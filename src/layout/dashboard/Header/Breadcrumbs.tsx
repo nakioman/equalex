@@ -1,12 +1,12 @@
 import { Breadcrumb, Typography } from 'antd';
 import { MenuItemGroupType, MenuItemType, SubMenuType } from 'antd/es/menu/hooks/useItems';
 import { useRouter } from 'next/router';
-import { MouseEventHandler, ReactNode } from 'react';
+import { MouseEventHandler, ReactElement } from 'react';
 import Routes, { MenuItem } from '../routes';
 
 export type BreadcrumbProps = {
   breadcrumbParent?: string;
-  breadcrumbTitle?: ReactNode;
+  breadcrumbTitle?: ReactElement;
 };
 
 const traverseRoutes = (routes: MenuItem[], path: MenuItem[], pathname: string): MenuItem[] | null => {
@@ -44,33 +44,33 @@ const Breadcrumbs = ({ breadcrumbParent, breadcrumbTitle }: BreadcrumbProps) => 
   const { Text, Link } = Typography;
   const router = useRouter();
 
-  return (
-    <>
-      <Breadcrumb>
-        {breadcrumbPath.map((item, idx) => {
-          const group = item as MenuItemGroupType;
-          const menuItem = item as MenuItemType;
-          const linkClickEvent: MouseEventHandler<HTMLElement> = (e) => {
-            e.preventDefault();
-            const anchor = e.target as HTMLAnchorElement;
-            router.push(anchor.href);
-          };
-          return (
-            <Breadcrumb.Item key={idx}>
-              {group?.type == 'group' ? (
-                <Text style={{ userSelect: 'none' }}>{menuItem.label}</Text>
-              ) : (
-                <Link href={menuItem.key as string} onClick={linkClickEvent}>
-                  {menuItem.label}
-                </Link>
-              )}
-            </Breadcrumb.Item>
-          );
-        })}
-        {breadcrumbTitle && <Breadcrumb.Item>{breadcrumbTitle}</Breadcrumb.Item>}
-      </Breadcrumb>
-    </>
-  );
+  const breadCrumbItems = breadcrumbPath.map((item, idx) => {
+    const group = item as MenuItemGroupType;
+    const menuItem = item as MenuItemType;
+    const linkClickEvent: MouseEventHandler<HTMLElement> = (e) => {
+      e.preventDefault();
+      const anchor = e.target as HTMLAnchorElement;
+      router.push(anchor.href);
+    };
+    return {
+      title:
+        group?.type == 'group' ? (
+          <Text style={{ userSelect: 'none' }}>{menuItem.label}</Text>
+        ) : (
+          <Link href={menuItem.key as string} onClick={linkClickEvent}>
+            {menuItem.label}
+          </Link>
+        ),
+      key: idx,
+    };
+  });
+  if (breadcrumbTitle) {
+    breadCrumbItems.push({
+      title: breadcrumbTitle,
+      key: -1,
+    });
+  }
+  return <Breadcrumb items={breadCrumbItems} />;
 };
 
 export default Breadcrumbs;

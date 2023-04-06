@@ -42,3 +42,11 @@ You can also add dummy data to the db using prisma studio running
 ```bash
 npx prisma studio
 ```
+
+## Package dependencies upgrade
+
+To Upgrade the package dependencies use:
+
+```bash
+npx npm-check-updates
+```
